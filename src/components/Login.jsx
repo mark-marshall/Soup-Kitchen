@@ -11,6 +11,7 @@ class Login extends Component {
         <div>
           Password: <input />
         </div>
+        <button>Log In</button>
       </div>
     );
   }
