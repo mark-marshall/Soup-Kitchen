@@ -55,40 +55,22 @@ export default function PantryList({
               </div>
               <div>
                 Category:
-                <select name="categoryID">
-                  <option selected={item.categoryID === 1} value="1">
-                    Fruits
-                  </option>
-                  <option selected={item.categoryID === 2} value="2">
-                    Vegetables
-                  </option>
-                  <option selected={item.categoryID === 3} value="3">
-                    Utensils
-                  </option>
-                  <option selected={item.categoryID === 4} value="4">
-                    Dairy
-                  </option>
-                  <option selected={item.categoryID === 5} value="5">
-                    Proteins
-                  </option>
-                  <option selected={item.categoryID === 6} value="6">
-                    Beverages
-                  </option>
-                  <option selected={item.categoryID === 7} value="7">
-                    Dishware
-                  </option>
-                  <option selected={item.categoryID === 8} value="8">
-                    Grains
-                  </option>
-                  <option selected={item.categoryID === 9} value="9">
-                    Spices
-                  </option>
-                  <option selected={item.categoryID === 10} value="10">
-                    Sauces
-                  </option>
+                <select name="categoryID" defaultValue={item.categoryID}>
+                  <option value="1">Fruits</option>
+                  <option value="2">Vegetables</option>
+                  <option value="3">Utensils</option>
+                  <option value="4">Dairy</option>
+                  <option value="5">Proteins</option>
+                  <option value="6">Beverages</option>
+                  <option value="7">Dishware</option>
+                  <option value="8">Grains</option>
+                  <option value="9">Spices</option>
+                  <option value="10">Sauces</option>
                 </select>
               </div>
-              <button onClick={() => fireUpdateItem(editItem)}>Edit Item</button>
+              <button onClick={() => fireUpdateItem(editItem)}>
+                Edit Item
+              </button>
               <button onClick={resetEditValues}>Cancel</button>
             </div>
           );
