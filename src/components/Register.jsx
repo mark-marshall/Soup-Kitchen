@@ -1,13 +1,13 @@
 import React from 'react';
 
-export default function Register ({ registerUser, registerValuesSet }) {
+export default function Register ({ registerUser, registerValuesSet, fireRegistration }) {
     return (
       <div>
         <h3>Register</h3>
         <div>
           Name:{' '}
           <input
-            name="name"
+            name="firstname"
             value={registerUser.name}
             onChange={registerValuesSet}
           />
@@ -15,7 +15,7 @@ export default function Register ({ registerUser, registerValuesSet }) {
         <div>
           Surname:{' '}
           <input
-            name="surname"
+            name="lastname"
             value={registerUser.surname}
             onChange={registerValuesSet}
           />
@@ -43,7 +43,7 @@ export default function Register ({ registerUser, registerValuesSet }) {
             <option value="staff">Staff</option>
             <option value="volunteer">Volunteer</option>
           </select>
-          <button>Register</button>
+          <button onClick={() => fireRegistration(registerUser)}>Register</button>
         </div>
       </div>
     );
