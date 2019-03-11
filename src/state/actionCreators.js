@@ -67,6 +67,27 @@ export const addItemAsync = item => dispatch => {
     });
 };
 
+export const deleteItemAsync = id => dispatch => {
+  dispatch(deletingItem());
+  axios()
+  .delete(`${getItemsURL}/${id}`)
+  .then(() => {
+    dispatch(itemDeleted);
+  })
+  .then(axios()
+  .get(getItemsURL)
+  .then(res => {
+    dispatch(pushItems(res.data.items));
+    dispatch(itemsFetched());
+  })
+  .catch(err => {
+    dispatch(errorFetchingItems(err.message));
+  }))
+  .catch(err => {
+    dispatch(errorDeletingItem(err.message));
+  });
+}
+
 export function fetchingToken() {
   return {
     type: types.FETCHING_TOKEN,
@@ -124,16 +145,28 @@ export function itemAdded() {
   }
 }
 
-export function addItem(items) {
-  return {
-    type: types.ADD_ITEM,
-    payload: items,
-  };
-}
-
 export function errorAddingItem(error) {
   return {
     type: types.ERROR_ADDING_ITEM,
     payload: error,
   };
+}
+
+export function deletingItem() {
+  return {
+    type: types.DELETING_ITEM,
+  }
+}
+
+export function itemDeleted() {
+  return {
+    type: types.ITEM_DELETED,
+  }
+}
+
+export function errorDeletingItem(error) {
+  return {
+    type: types.ERROR_DELETING_ITEM,
+    payload: error,
+  }
 }

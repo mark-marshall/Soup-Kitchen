@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import Pantry from './Pantry';
 import ShoppingList from './ShoppingList';
 import Staff from './Staff';
-import { getItemsAsync, addItemAsync } from '../state/actionCreators';
+import { getItemsAsync, addItemAsync, deleteItemAsync } from '../state/actionCreators';
 
 class Dashboard extends Component {
   state = {
@@ -48,10 +48,13 @@ class Dashboard extends Component {
     unit: item.unit,
     categoryID: parseInt(item.categoryID),
     }
-    console.log(itemParse);
     this.props.addItemAsync(itemParse);
     this.resetValues();
   };
+
+  fireDeleteItem = id => {
+    this.props.deleteItemAsync(id);
+  }
 
   render() {
     return (
@@ -61,6 +64,7 @@ class Dashboard extends Component {
           itemsValuesSet={this.itemsValuesSet}
           addItem={this.state.addItem}
           fireAddItem={this.fireAddItem}
+          fireDeleteItem={this.fireDeleteItem}
         />
         <ShoppingList />
         <Staff />
@@ -80,6 +84,7 @@ function mapDispatchToProps(dispatch) {
     {
       getItemsAsync,
       addItemAsync,
+      deleteItemAsync,
     },
     dispatch,
   );

@@ -9,5 +9,8 @@ export const ERROR_FETCHING_ITEMS = "ERROR_FETCHING_ITEMS";
 
 export const ADDING_ITEM = "ADDING_ITEM";
 export const ITEM_ADDED = "ITEM_ADDED";
-export const ADD_ITEM = "ADD_ITEM";
 export const ERROR_ADDING_ITEM = "ERROR_ADDING_ITEM";
+
+export const DELETING_ITEM = "DELETING_ITEM";
+export const ITEM_DELETED = "ITEM_DELETED";
+export const ERROR_DELETING_ITEM = "ERROR_DELETING_ITEM";

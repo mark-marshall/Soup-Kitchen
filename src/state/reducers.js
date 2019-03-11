@@ -8,6 +8,8 @@ export function error(error = null, action) {
       return action.payload;
     case types.ERROR_ADDING_ITEM:
       return action.payload;
+    case types.ERROR_DELETING_ITEM:
+      return action.payload;
     default:
       return error;
   }
@@ -27,6 +29,10 @@ export function loading(loading = false, action) {
       return true;
     case types.ITEM_ADDED:
       return false;
+    case types.DELETING_ITEM:
+      return true;
+    case types.ITEM_DELETED:
+      return false;
     default:
       return loading;
   }
@@ -35,8 +41,6 @@ export function loading(loading = false, action) {
 export function items(items = [], action) {
   switch (action.type) {
     case types.PUSH_ITEMS:
-      return action.payload;
-    case types.ADD_ITEM:
       return action.payload;
     default:
       return items;

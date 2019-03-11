@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function PantryList({ items }) {
+export default function PantryList({ items, fireDeleteItem }) {
   const itemsSorted = items.sort(function(a, b) {
     const nameA = a.name.toUpperCase();
     const nameB = b.name.toUpperCase();
@@ -24,7 +24,7 @@ export default function PantryList({ items }) {
           <p>{item.unit}</p>
           <p>{categoryRefs[item.categoryID-1]}</p>
           <button>Edit</button>
-          <button>Delete</button>
+          <button onClick={() => fireDeleteItem(item.id)}>Delete</button>
         </li>
       ))}
     </ol>
