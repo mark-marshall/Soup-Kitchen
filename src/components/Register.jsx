@@ -1,26 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Register extends Component {
-  state = {
-    user: {
-      name: '',
-      surname: '',
-      email: '',
-      password: '',
-      role: '',
-    },
-  };
-
-  userValuesSet = event => {
-    this.setState({
-      user: {
-        ...this.state.user,
-        [event.target.name]: event.target.value,
-      },
-    });
-  };
-
-  render() {
+export default function Register ({ registerUser, registerValuesSet }) {
     return (
       <div>
         <h3>Register</h3>
@@ -28,37 +8,37 @@ class Register extends Component {
           Name:{' '}
           <input
             name="name"
-            value={this.state.user.name}
-            onChange={this.userValuesSet}
+            value={registerUser.name}
+            onChange={registerValuesSet}
           />
         </div>
         <div>
           Surname:{' '}
           <input
             name="surname"
-            value={this.state.user.surname}
-            onChange={this.userValuesSet}
+            value={registerUser.surname}
+            onChange={registerValuesSet}
           />
         </div>
         <div>
           Email:{' '}
           <input
             name="email"
-            value={this.state.user.email}
-            onChange={this.userValuesSet}
+            value={registerUser.email}
+            onChange={registerValuesSet}
           />
         </div>
         <div>
           Password:{' '}
           <input
             name="password"
-            value={this.state.user.password}
-            onChange={this.userValuesSet}
+            value={registerUser.password}
+            onChange={registerValuesSet}
           />
         </div>
         <div>
           Role:{' '}
-          <select name="role" onChange={this.userValuesSet}>
+          <select name="role" onChange={registerValuesSet}>
             <option value="admin">Admin</option>
             <option value="staff">Staff</option>
             <option value="volunteer">Volunteer</option>
@@ -68,6 +48,3 @@ class Register extends Component {
       </div>
     );
   }
-}
-
-export default Register;

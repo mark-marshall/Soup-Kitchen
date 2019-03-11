@@ -1,23 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Login extends Component {
-  state = {
-    user: {
-      email: '',
-      password: '',
-    },
-  };
-
-  userValuesSet = event => {
-    this.setState({
-      user: {
-        ...this.state.user,
-        [event.target.name]: event.target.value,
-      },
-    });
-  };
-
-  render() {
+export default function Login({ loginUser, loginValuesSet }) {
     return (
       <div>
         <h3>Login</h3>
@@ -25,22 +8,19 @@ class Login extends Component {
           Email:{' '}
           <input
             name="email"
-            value={this.state.user.email}
-            onChange={this.userValuesSet}
+            value={loginUser.email}
+            onChange={loginValuesSet}
           />
         </div>
         <div>
           Password:{' '}
           <input
             name="password"
-            value={this.state.user.password}
-            onChange={this.userValuesSet}
+            value={loginUser.password}
+            onChange={loginValuesSet}
           />
         </div>
         <button>Log In</button>
       </div>
     );
   }
-}
-
-export default Login;
