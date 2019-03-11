@@ -5,7 +5,12 @@ import { bindActionCreators } from 'redux';
 import Pantry from './Pantry';
 import ShoppingList from './ShoppingList';
 import Staff from './Staff';
-import { getItemsAsync, addItemAsync, deleteItemAsync } from '../state/actionCreators';
+import {
+  getItemsAsync,
+  addItemAsync,
+  deleteItemAsync,
+  updateItemAsync,
+} from '../state/actionCreators';
 
 class Dashboard extends Component {
   state = {
@@ -15,6 +20,14 @@ class Dashboard extends Component {
       unit: '',
       categoryID: '',
     },
+    editItem: {
+        id: '',
+        name: '',
+        amount: '',
+        unit: '',
+        categoryID: '',
+    },
+    currentlySelected: '',
   };
 
   componentDidMount() {
@@ -43,17 +56,62 @@ class Dashboard extends Component {
 
   fireAddItem = item => {
     const itemParse = {
-    name: item.name,
-    amount: parseInt(item.amount),
-    unit: item.unit,
-    categoryID: parseInt(item.categoryID),
-    }
+      name: item.name,
+      amount: parseInt(item.amount),
+      unit: item.unit,
+      categoryID: parseInt(item.categoryID),
+    };
     this.props.addItemAsync(itemParse);
     this.resetValues();
   };
 
   fireDeleteItem = id => {
     this.props.deleteItemAsync(id);
+  };
+
+  resetEditValues = () => {
+    this.setState({
+      editItem: {
+        id: '',
+        name: '',
+        amount: '',
+        unit: '',
+        categoryID: '',
+      },
+    });
+  };
+
+  currentlySelectedSet = item => {
+    this.setState({
+      editItem: {
+        id: item.id,
+        name: item.name,
+        amount: item.amount,
+        unit: item.unit,
+        categoryID: item.categoryID,
+      },
+    });
+  };
+
+  editValuesSet = event => {
+    this.setState({
+      editItem: {
+        ...this.state.editItem,
+        [event.target.name]: event.target.value,
+      },
+    });
+  };
+
+  fireUpdateItem = item => {
+    const itemParse = {
+      id: parseInt(item.id),
+      name: item.name,
+      amount: parseInt(item.amount),
+      unit: item.unit,
+      categoryID: parseInt(item.categoryID),
+    };
+    this.props.updateItemAsync(itemParse);
+    this.resetEditValues();
   }
 
   render() {
@@ -65,6 +123,11 @@ class Dashboard extends Component {
           addItem={this.state.addItem}
           fireAddItem={this.fireAddItem}
           fireDeleteItem={this.fireDeleteItem}
+          currentlySelectedSet={this.currentlySelectedSet}
+          editItem={this.state.editItem}
+          editValuesSet={this.editValuesSet}
+          resetEditValues={this.resetEditValues}
+          fireUpdateItem={this.fireUpdateItem}
         />
         <ShoppingList />
         <Staff />
@@ -85,6 +148,7 @@ function mapDispatchToProps(dispatch) {
       getItemsAsync,
       addItemAsync,
       deleteItemAsync,
+      updateItemAsync,
     },
     dispatch,
   );

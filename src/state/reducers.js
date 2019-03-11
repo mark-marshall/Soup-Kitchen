@@ -10,6 +10,8 @@ export function error(error = null, action) {
       return action.payload;
     case types.ERROR_DELETING_ITEM:
       return action.payload;
+    case types.ERROR_UPDATING_ITEM:
+      return action.payload;
     default:
       return error;
   }
@@ -32,6 +34,10 @@ export function loading(loading = false, action) {
     case types.DELETING_ITEM:
       return true;
     case types.ITEM_DELETED:
+      return false;
+    case types.UPDATING_ITEM:
+      return true;
+    case types.ITEM_UPDATED:
       return false;
     default:
       return loading;

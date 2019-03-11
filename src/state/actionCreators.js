@@ -88,6 +88,27 @@ export const deleteItemAsync = id => dispatch => {
   });
 }
 
+export const updateItemAsync = item => dispatch => {
+  dispatch(updatingItem());
+  axios()
+  .put(`${getItemsURL}/${item.id}`, item)
+  .then(() => {
+    dispatch(itemUpdated);
+  })
+  .then(axios()
+  .get(getItemsURL)
+  .then(res => {
+    dispatch(pushItems(res.data.items));
+    dispatch(itemsFetched());
+  })
+  .catch(err => {
+    dispatch(errorFetchingItems(err.message));
+  }))
+  .catch(err => {
+    dispatch(errorUpdatingItem(err.message));
+  });
+}
+
 export function fetchingToken() {
   return {
     type: types.FETCHING_TOKEN,
@@ -167,6 +188,25 @@ export function itemDeleted() {
 export function errorDeletingItem(error) {
   return {
     type: types.ERROR_DELETING_ITEM,
+    payload: error,
+  }
+}
+
+export function updatingItem() {
+  return {
+    type: types.UPDATING_ITEM,
+  }
+}
+
+export function itemUpdated() {
+  return {
+    type: types.ITEM_UPDATED,
+  }
+}
+
+export function errorUpdatingItem(error) {
+  return {
+    type: types.ERROR_UPDATING_ITEM,
     payload: error,
   }
 }

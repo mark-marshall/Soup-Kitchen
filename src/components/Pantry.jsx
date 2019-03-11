@@ -9,11 +9,24 @@ export default function Pantry({
   addItem,
   fireAddItem,
   fireDeleteItem,
+  currentlySelectedSet,
+  editItem,
+  editValuesSet,
+  resetEditValues,
+  fireUpdateItem,
 }) {
   return (
     <div>
       <h3>Pantry</h3>
-      <PantryList items={items} fireDeleteItem={fireDeleteItem} />
+      <PantryList
+        items={items}
+        fireDeleteItem={fireDeleteItem}
+        currentlySelectedSet={currentlySelectedSet}
+        editItem={editItem} 
+        editValuesSet={editValuesSet}
+        resetEditValues={resetEditValues}
+        fireUpdateItem={fireUpdateItem}
+      />
       <AddToPantry
         itemsValuesSet={itemsValuesSet}
         addItem={addItem}
