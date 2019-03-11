@@ -46,6 +46,21 @@ export const getItemsAsync = () => dispatch => {
     });
 };
 
+export const addItemAsync = item => dispatch => {
+  dispatch(addingItem());
+  axios()
+    .post(getItemsURL, item)
+    .then(res => {
+      console.log(res.data.items);
+      dispatch(addItem(res.data.items));
+      dispatch(itemAdded());
+    })
+    .catch(err => {
+      console.log(err.message);
+      dispatch(errorAddingItem(err.message));
+    });
+};
+
 export function fetchingToken() {
   return {
     type: types.FETCHING_TOKEN,
@@ -87,6 +102,32 @@ export function pushItems(items) {
 export function errorFetchingItems(error) {
   return {
     type: types.ERROR_FETCHING_ITEMS,
+    payload: error,
+  };
+}
+
+export function addingItem() {
+  return {
+    type: types.ADDING_ITEM,
+  }
+}
+
+export function itemAdded() {
+  return {
+    type: types.ITEM_ADDED,
+  }
+}
+
+export function addItem(items) {
+  return {
+    type: types.ADD_ITEM,
+    payload: items,
+  };
+}
+
+export function errorAddingItem(error) {
+  return {
+    type: types.ERROR_ADDING_ITEM,
     payload: error,
   };
 }
