@@ -4,13 +4,14 @@ import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
-import { error, fetchingToken } from './state/reducers';
+import { error, loading, items } from './state/reducers';
 import './index.css';
 import App from './App';
 
 const rootReducer = combineReducers({
   error,
-  fetchingToken,
+  loading,
+  items,
 });
 
 const store = createStore(

@@ -4,18 +4,33 @@ export function error(error = null, action) {
   switch (action.type) {
     case types.ERROR_FETCHING_TOKEN:
       return action.payload;
+    case types.ERROR_FETCHING_ITEMS:
+      return action.payload;
     default:
       return error;
   }
 }
 
-export function fetchingToken(fetchingStatus = false, action) {
+export function loading(loading = false, action) {
   switch (action.type) {
     case types.FETCHING_TOKEN:
       return true;
     case types.TOKEN_FETCHED:
       return false;
+    case types.FETCHING_ITEMS:
+      return true;
+    case types.ITEMS_FETCHED:
+      return false;
     default:
-      return fetchingStatus;
+      return loading;
+  }
+}
+
+export function items(items = [], action) {
+  switch (action.type) {
+    case types.PUSH_ITEMS:
+      return action.payload;
+    default:
+      return items;
   }
 }
