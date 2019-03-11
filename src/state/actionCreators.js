@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import axios from 'axios';
+import axios from '../axios/axios';
 
 const staffRegisterURL = 'https://soup-kitchen-backend.herokuapp.com/api/staff/register';
 const staffLoginURL = 'https://soup-kitchen-backend.herokuapp.com/api/staff/login';
@@ -7,7 +7,7 @@ const staffLoginURL = 'https://soup-kitchen-backend.herokuapp.com/api/staff/logi
 
 export const getTokenOnRegistrationAsync = user => dispatch => {
     dispatch(fetchingToken());
-    axios
+    axios()
     .post(staffRegisterURL, user)
     .then(res => {
         localStorage.setItem('token', res.data.token);
@@ -21,7 +21,7 @@ export const getTokenOnRegistrationAsync = user => dispatch => {
 
 export const getTokenOnLoginAsync = user => dispatch => {
     dispatch(fetchingToken());
-    axios
+    axios()
     .post(staffLoginURL, user)
     .then(res => {
         localStorage.setItem('token', res.data.token);
