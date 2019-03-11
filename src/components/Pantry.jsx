@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PantryHeader from './PantryHeader';
 import PantryList from './PantryList';
 import AddToPantry from './AddToPantry';
 
@@ -18,6 +19,7 @@ export default function Pantry({
   return (
     <div>
       <h3>Pantry</h3>
+      <PantryHeader />
       <PantryList
         items={items}
         fireDeleteItem={fireDeleteItem}

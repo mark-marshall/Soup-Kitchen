@@ -1,6 +1,6 @@
 import React from 'react';
 
-import * as consts from '../consts/consts';
+import * as consts from '../consts/categoryConsts';
 
 export default function PantryList({
   items,

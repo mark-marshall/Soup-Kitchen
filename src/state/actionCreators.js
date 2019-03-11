@@ -1,4 +1,4 @@
-import * as types from './actionTypes';
+import * as types from '../consts/actionTypeConsts';
 import axios from '../axios/axios';
 
 const staffRegisterURL =
