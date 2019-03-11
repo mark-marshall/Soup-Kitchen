@@ -17,7 +17,7 @@ export default function AddToPantry({ itemsValuesSet, addItem, fireAddItem }) {
       </div>
       <div>
         Category:
-        <select name="category" onChange={itemsValuesSet}>
+        <select name="categoryID" onChange={itemsValuesSet}>
           <option value="1">Fruits</option>
           <option value="2">Vegetables</option>
           <option value="3">Utensils</option>

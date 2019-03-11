@@ -22,7 +22,7 @@ export default function PantryList({ items }) {
           <p>{item.name}</p>
           <p>{item.amount}</p>
           <p>{item.unit}</p>
-          <p>{categoryRefs[item.categoryID+1]}</p>
+          <p>{categoryRefs[item.categoryID-1]}</p>
           <button>Edit</button>
           <button>Delete</button>
         </li>

@@ -50,13 +50,19 @@ export const addItemAsync = item => dispatch => {
   dispatch(addingItem());
   axios()
     .post(getItemsURL, item)
-    .then(res => {
-      console.log(res.data.items);
-      dispatch(addItem(res.data.items));
+    .then(() => {
       dispatch(itemAdded());
     })
+    .then(axios()
+    .get(getItemsURL)
+    .then(res => {
+      dispatch(pushItems(res.data.items));
+      dispatch(itemsFetched());
+    })
     .catch(err => {
-      console.log(err.message);
+      dispatch(errorFetchingItems(err.message));
+    }))
+    .catch(err => {
       dispatch(errorAddingItem(err.message));
     });
 };

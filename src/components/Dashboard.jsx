@@ -13,7 +13,7 @@ class Dashboard extends Component {
       name: '',
       amount: '',
       unit: '',
-      category: '',
+      categoryID: '',
     },
   };
 
@@ -42,7 +42,14 @@ class Dashboard extends Component {
   };
 
   fireAddItem = item => {
-    this.props.addItemAsync(item);
+    const itemParse = {
+    name: item.name,
+    amount: parseInt(item.amount),
+    unit: item.unit,
+    categoryID: parseInt(item.categoryID),
+    }
+    console.log(itemParse);
+    this.props.addItemAsync(itemParse);
     this.resetValues();
   };
 
