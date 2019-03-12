@@ -9,62 +9,73 @@ import Credentials from './components/Credentials';
 import Dashboard from './components/Dashboard';
 import VolunteerOpps from './components/VolunteerOpps';
 import AppFooter from './components/AppFooter';
-import { getUserAsync } from '../src/state/actionCreators';
+import { getUserAsync, setVolunteerLogin } from '../src/state/actionCreators';
 
 class App extends Component {
   componentDidMount() {
     const userID = localStorage.getItem('id');
-    if (userID) {
+    const userRole = localStorage.getItem('role');
+    if (userID && userRole !== 'volunteer') {
       this.props.getUserAsync(userID);
+    } else {
+      this.props.setVolunteerLogin();
     }
   }
 
   render() {
     return (
       <div className="App">
-        <Route path="/" render={routeProps => <AppHeader {...routeProps}/>} />
-
+        <Route path="/" render={routeProps => <AppHeader {...routeProps} />} />
         <Route
-          exact path="/"
+          exact
+          path="/"
           render={() =>
-            !this.props.user.id ? (
+            !this.props.user.id && !this.props.volunteer ? (
               <Redirect to="/credentials" />
-            ) : this.props.user.role !== 'volunteer' ? (
+            ) : this.props.user.id ? (
               <Redirect to="/dashboard" />
             ) : (
               <Redirect to="/volunteer" />
             )
           }
         />
-
         <Route
           path="/credentials"
           render={routeProps =>
-            !this.props.user.id ? (
-              <Credentials {...routeProps}/>
-            ) : this.props.user.role !== 'volunteer' ? (
+            !this.props.user.id && !this.props.volunteer ? (
+              <Credentials {...routeProps} />
+            ) : this.props.user.id ? (
               <Redirect to="/dashboard" />
             ) : (
               <Redirect to="/volunteer" />
             )
           }
         />
-
         <Route
           path="/dashboard"
           render={routeProps =>
-            this.props.user.id ? <Dashboard {...routeProps}/> : <Redirect to="/credentials" />
+            this.props.user.id ? (
+              <Dashboard {...routeProps} />
+            ) : this.props.volunteer ? (
+              <Redirect to="/volunteer" />
+            ) : (
+              <Redirect to="/credentials" />
+            )
           }
         />
-
         <Route
           path="/volunteer"
           render={routeProps =>
-            this.props.user.id ? <VolunteerOpps {...routeProps}/> : <Redirect to="/credentials" />
+            this.props.volunteer ? (
+              <VolunteerOpps {...routeProps} />
+            ) : this.props.user.id ? (
+              <Redirect to="/dashboard" />
+            ) : (
+              <Redirect to="/credentials" />
+            )
           }
         />
-
-        <Route path="/" render={routeProps => <AppFooter {...routeProps}/>} />
+        <Route path="/" render={routeProps => <AppFooter {...routeProps} />} />
       </div>
     );
   }
@@ -73,6 +84,7 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     user: state.user,
+    volunteer: state.isVolunteer,
   };
 }
 
@@ -80,12 +92,15 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       getUserAsync,
+      setVolunteerLogin,
     },
     dispatch,
   );
 }
 
-export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(App),
+);

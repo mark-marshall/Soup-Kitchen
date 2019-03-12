@@ -86,3 +86,12 @@ export function user(user = {}, action) {
       return user;
   }
 }
+
+export function isVolunteer(isVolunteer = false, action) {
+  switch (action.type) {
+    case types.SET_VOLUNTEER_LOGIN:
+      return true;
+    default:
+      return isVolunteer;
+  }
+}

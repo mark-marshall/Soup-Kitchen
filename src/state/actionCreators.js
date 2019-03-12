@@ -15,6 +15,7 @@ export const getTokenOnRegistrationAsync = user => dispatch => {
     .then(res => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('id', res.data.id);
+      localStorage.setItem('role', JSON.parse(res.config.data).role);
       dispatch(tokenFetched());
     })
     .catch(err => {
@@ -29,6 +30,7 @@ export const getTokenOnLoginAsync = user => dispatch => {
     .then(res => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('id', res.data.id);
+      localStorage.setItem('role', JSON.parse(res.config.data).role);
       dispatch(tokenFetched());
     })
     .catch(err => {
@@ -363,5 +365,11 @@ export function errorFetchingUser(error) {
   return {
     type: types.ERROR_FETCHING_USER,
     payload: error,
+  }
+}
+
+export function setVolunteerLogin() {
+  return {
+    type: types.SET_VOLUNTEER_LOGIN,
   }
 }

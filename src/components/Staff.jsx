@@ -10,12 +10,10 @@ export default function Staff({ users }) {
   return (
     <div>
       <h3>Team</h3>
-
       <nav>
         <NavLink to="/dashboard/team">Staff</NavLink>
         <NavLink to="/dashboard/team/volunteers">Volunteers</NavLink>
       </nav>
-
       <Route
         exact
         path="/dashboard/team"
@@ -23,7 +21,6 @@ export default function Staff({ users }) {
           <StaffList {...routeProps} staffList={staffList} />
         )}
       />
-
       <Route
         path="/dashboard/team/volunteers"
         render={routeProps => (

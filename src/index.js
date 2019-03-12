@@ -5,7 +5,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { error, loading, items, users, user } from './state/reducers';
+import { error, loading, items, users, user, isVolunteer } from './state/reducers';
 import './index.css';
 import App from './App';
 
@@ -15,6 +15,7 @@ const rootReducer = combineReducers({
   items,
   users,
   user,
+  isVolunteer,
 });
 
 const store = createStore(

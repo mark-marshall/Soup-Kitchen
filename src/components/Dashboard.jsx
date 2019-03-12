@@ -173,15 +173,17 @@ class Dashboard extends Component {
       <div>
         <Route
           path="/dashboard/"
-          render={routeProps => <DashboardHeader {...routeProps} user={this.props.user} />}
+          render={routeProps => (
+            <DashboardHeader {...routeProps} user={this.props.user} />
+          )}
         />
         <nav>
-        <NavLink to="/dashboard/">Pantry</NavLink>
-        <NavLink to="/dashboard/team">Team</NavLink>
+          <NavLink to="/dashboard/">Pantry</NavLink>
+          <NavLink to="/dashboard/team">Team</NavLink>
         </nav>
-
         <Route
-          exact path="/dashboard/"
+          exact
+          path="/dashboard/"
           render={routeProps => (
             <Pantry
               {...routeProps}
@@ -208,7 +210,9 @@ class Dashboard extends Component {
         />
         <Route
           path="/dashboard/team"
-          render={routeProps => <Staff {...routeProps} users={this.props.users} />}
+          render={routeProps => (
+            <Staff {...routeProps} users={this.props.users} />
+          )}
         />
       </div>
     );
@@ -240,7 +244,9 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Dashboard));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Dashboard),
+);
