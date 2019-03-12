@@ -12,6 +12,8 @@ export function error(error = null, action) {
       return action.payload;
     case types.ERROR_UPDATING_ITEM:
       return action.payload;
+    case types.ERROR_FETCHING_USERS:
+      return action.payload;
     default:
       return error;
   }
@@ -39,6 +41,10 @@ export function loading(loading = false, action) {
       return true;
     case types.ITEM_UPDATED:
       return false;
+    case types.FETCHING_USERS:
+      return true;
+    case types.USERS_FETCHED:
+      return false;
     default:
       return loading;
   }
@@ -54,5 +60,14 @@ export function items(items = [], action) {
       return items.filter(item => item.name === action.payload);
     default:
       return items;
+  }
+}
+
+export function users(users = [], action) {
+  switch (action.type) {
+    case types.PUSH_USERS:
+      return action.payload;
+    default:
+      return users;
   }
 }

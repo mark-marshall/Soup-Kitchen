@@ -13,6 +13,7 @@ import {
   unfilterItemsAsync,
   searchItemsAsync,
   clearSearchAsync,
+  getUsersAsync,
 } from '../state/actionCreators';
 
 class Dashboard extends Component {
@@ -37,6 +38,7 @@ class Dashboard extends Component {
 
   componentDidMount() {
     this.props.getItemsAsync();
+    this.props.getUsersAsync();
   }
 
   resetValues = () => {
@@ -187,7 +189,7 @@ class Dashboard extends Component {
           fireSearchItems={this.fireSearchItems}
           fireItemSearchClear={this.fireItemSearchClear}
         />
-        <Staff />
+        <Staff users={this.props.users}/>
       </div>
     );
   }
@@ -196,6 +198,7 @@ class Dashboard extends Component {
 function mapStateToProps(state) {
   return {
     items: state.items,
+    users: state.users,
   };
 }
 
@@ -210,6 +213,7 @@ function mapDispatchToProps(dispatch) {
       unfilterItemsAsync,
       searchItemsAsync,
       clearSearchAsync,
+      getUsersAsync,
     },
     dispatch,
   );

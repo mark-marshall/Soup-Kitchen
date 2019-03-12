@@ -6,6 +6,7 @@ const staffRegisterURL =
 const staffLoginURL =
   'https://soup-kitchen-backend.herokuapp.com/api/staff/login';
 const getItemsURL = 'https://soup-kitchen-backend.herokuapp.com/api/items';
+const userListURL = 'https://soup-kitchen-backend.herokuapp.com/api/staff';
 
 export const getTokenOnRegistrationAsync = user => dispatch => {
   dispatch(fetchingToken());
@@ -169,6 +170,19 @@ export const clearSearchAsync = () => dispatch => {
     });
 };
 
+export const getUsersAsync = () => dispatch => {
+  dispatch(fetchingUsers());
+  axios()
+    .get(userListURL)
+    .then(res => {
+      dispatch(pushUsers(res.data.users));
+      dispatch(usersFetched());
+    })
+    .catch(err => {
+      dispatch(errorFetchingUsers(err.message));
+    });
+};
+
 export function fetchingToken() {
   return {
     type: types.FETCHING_TOKEN,
@@ -282,5 +296,31 @@ export function searchItems(keyword) {
   return {
     type: types.SEARCH_ITEMS,
     payload: keyword,
+  };
+}
+
+export function fetchingUsers() {
+  return {
+    type: types.FETCHING_USERS,
+  };
+}
+
+export function usersFetched() {
+  return {
+    type: types.USERS_FETCHED,
+  };
+}
+
+export function pushUsers(staff) {
+  return {
+    type: types.PUSH_USERS,
+    payload: staff,
+  };
+}
+
+export function errorFetchingUsers(error) {
+  return {
+    type: types.ERROR_FETCHING_USERS,
+    payload: error,
   };
 }
