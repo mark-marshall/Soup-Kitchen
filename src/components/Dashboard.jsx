@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Pantry from './Pantry';
-import ShoppingList from './ShoppingList';
 import Staff from './Staff';
 import {
   getItemsAsync,
@@ -39,10 +38,6 @@ class Dashboard extends Component {
   componentDidMount() {
     this.props.getItemsAsync();
   }
-
-  /*componentDidUpdate() {
-    this.props.getItemsAsync();
-  }*/
 
   resetValues = () => {
     this.setState({
@@ -192,7 +187,6 @@ class Dashboard extends Component {
           fireSearchItems={this.fireSearchItems}
           fireItemSearchClear={this.fireItemSearchClear}
         />
-        <ShoppingList />
         <Staff />
       </div>
     );
