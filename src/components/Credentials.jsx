@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Route, NavLink, withRouter } from 'react-router-dom';
 
 import Register from './Register';
 import Login from './Login';
-import { getTokenOnRegistrationAsync, getTokenOnLoginAsync } from '../state/actionCreators';
+import {
+  getTokenOnRegistrationAsync,
+  getTokenOnLoginAsync,
+} from '../state/actionCreators';
 
 class Credentials extends Component {
   state = {
@@ -33,9 +37,9 @@ class Credentials extends Component {
       loginUser: {
         email: '',
         password: '',
-      }
-    })
-  }
+      },
+    });
+  };
 
   registerValuesSet = event => {
     this.setState({
@@ -49,7 +53,7 @@ class Credentials extends Component {
   fireRegistration = user => {
     this.props.getTokenOnRegistrationAsync(user);
     this.resetValues();
-  }
+  };
 
   loginValuesSet = event => {
     this.setState({
@@ -63,21 +67,37 @@ class Credentials extends Component {
   fireLogin = user => {
     this.props.getTokenOnLoginAsync(user);
     this.resetValues();
-  }
+  };
 
   render() {
     return (
       <div>
-        <h2>Credentials</h2>
-        <Register
-          registerUser={this.state.registerUser}
-          registerValuesSet={this.registerValuesSet}
-          fireRegistration={this.fireRegistration}
+        <nav>
+          <NavLink to="/credentials/">Login</NavLink>
+          <NavLink to="/credentials/register">Register</NavLink>
+        </nav>
+        <Route
+          exact
+          path="/credentials/"
+          render={routeProps => (
+            <Login
+              {...routeProps}
+              loginUser={this.state.loginUser}
+              loginValuesSet={this.loginValuesSet}
+              fireLogin={this.fireLogin}
+            />
+          )}
         />
-        <Login
-          loginUser={this.state.loginUser}
-          loginValuesSet={this.loginValuesSet}
-          fireLogin={this.fireLogin}
+        <Route
+          path="/credentials/register"
+          render={routeProps => (
+            <Register
+              {...routeProps}
+              registerUser={this.state.registerUser}
+              registerValuesSet={this.registerValuesSet}
+              fireRegistration={this.fireRegistration}
+            />
+          )}
         />
       </div>
     );
@@ -94,4 +114,9 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-export default connect(null, mapDispatchToProps)(Credentials);
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps,
+  )(Credentials),
+);
