@@ -12,7 +12,6 @@ class App extends Component {
     return (
       <div className="App">
         <AppHeader />
-        <h1>Soup Kitchen</h1>
         <Credentials />
         <Dashboard />
         <VolunteerOpps />
