@@ -53,15 +53,17 @@ export const addItemAsync = item => dispatch => {
     .then(() => {
       dispatch(itemAdded());
     })
-    .then(axios()
-    .get(getItemsURL)
-    .then(res => {
-      dispatch(pushItems(res.data.items));
-      dispatch(itemsFetched());
-    })
-    .catch(err => {
-      dispatch(errorFetchingItems(err.message));
-    }))
+    .then(
+      axios()
+        .get(getItemsURL)
+        .then(res => {
+          dispatch(pushItems(res.data.items));
+          dispatch(itemsFetched());
+        })
+        .catch(err => {
+          dispatch(errorFetchingItems(err.message));
+        }),
+    )
     .catch(err => {
       dispatch(errorAddingItem(err.message));
     });
@@ -70,44 +72,48 @@ export const addItemAsync = item => dispatch => {
 export const deleteItemAsync = id => dispatch => {
   dispatch(deletingItem());
   axios()
-  .delete(`${getItemsURL}/${id}`)
-  .then(() => {
-    dispatch(itemDeleted);
-  })
-  .then(axios()
-  .get(getItemsURL)
-  .then(res => {
-    dispatch(pushItems(res.data.items));
-    dispatch(itemsFetched());
-  })
-  .catch(err => {
-    dispatch(errorFetchingItems(err.message));
-  }))
-  .catch(err => {
-    dispatch(errorDeletingItem(err.message));
-  });
-}
+    .delete(`${getItemsURL}/${id}`)
+    .then(() => {
+      dispatch(itemDeleted);
+    })
+    .catch(err => {
+      dispatch(errorDeletingItem(err.message));
+    });
+  setTimeout(function() {
+    axios()
+      .get(getItemsURL)
+      .then(res => {
+        dispatch(pushItems(res.data.items));
+        dispatch(itemsFetched());
+      })
+      .catch(err => {
+        dispatch(errorFetchingItems(err.message));
+      });
+  }, 200);
+};
 
 export const updateItemAsync = item => dispatch => {
   dispatch(updatingItem());
   axios()
-  .put(`${getItemsURL}/${item.id}`, item)
-  .then(() => {
-    dispatch(itemUpdated);
-  })
-  .then(axios()
-  .get(getItemsURL)
-  .then(res => {
-    dispatch(pushItems(res.data.items));
-    dispatch(itemsFetched());
-  })
-  .catch(err => {
-    dispatch(errorFetchingItems(err.message));
-  }))
-  .catch(err => {
-    dispatch(errorUpdatingItem(err.message));
-  });
-}
+    .put(`${getItemsURL}/${item.id}`, item)
+    .then(() => {
+      dispatch(itemUpdated);
+    })
+    .catch(err => {
+      dispatch(errorUpdatingItem(err.message));
+    });
+  setTimeout(function() {
+    axios()
+      .get(getItemsURL)
+      .then(res => {
+        dispatch(pushItems(res.data.items));
+        dispatch(itemsFetched());
+      })
+      .catch(err => {
+        dispatch(errorFetchingItems(err.message));
+      });
+  }, 200);
+};
 
 export const filterItemsAsync = categoryID => dispatch => {
   dispatch(fetchingItems());
@@ -115,7 +121,7 @@ export const filterItemsAsync = categoryID => dispatch => {
     .get(getItemsURL)
     .then(res => {
       dispatch(pushItems(res.data.items));
-      dispatch(filterItems(categoryID))
+      dispatch(filterItems(categoryID));
       dispatch(itemsFetched());
     })
     .catch(err => {
@@ -142,7 +148,7 @@ export const searchItemsAsync = keyword => dispatch => {
     .get(getItemsURL)
     .then(res => {
       dispatch(pushItems(res.data.items));
-      dispatch(searchItems(keyword))
+      dispatch(searchItems(keyword));
       dispatch(itemsFetched());
     })
     .catch(err => {
@@ -211,13 +217,13 @@ export function errorFetchingItems(error) {
 export function addingItem() {
   return {
     type: types.ADDING_ITEM,
-  }
+  };
 }
 
 export function itemAdded() {
   return {
     type: types.ITEM_ADDED,
-  }
+  };
 }
 
 export function errorAddingItem(error) {
@@ -230,51 +236,51 @@ export function errorAddingItem(error) {
 export function deletingItem() {
   return {
     type: types.DELETING_ITEM,
-  }
+  };
 }
 
 export function itemDeleted() {
   return {
     type: types.ITEM_DELETED,
-  }
+  };
 }
 
 export function errorDeletingItem(error) {
   return {
     type: types.ERROR_DELETING_ITEM,
     payload: error,
-  }
+  };
 }
 
 export function updatingItem() {
   return {
     type: types.UPDATING_ITEM,
-  }
+  };
 }
 
 export function itemUpdated() {
   return {
     type: types.ITEM_UPDATED,
-  }
+  };
 }
 
 export function errorUpdatingItem(error) {
   return {
     type: types.ERROR_UPDATING_ITEM,
     payload: error,
-  }
+  };
 }
 
 export function filterItems(categoryID) {
   return {
     type: types.FILTER_ITEMS,
     payload: categoryID,
-  }
+  };
 }
 
 export function searchItems(keyword) {
   return {
     type: types.SEARCH_ITEMS,
     payload: keyword,
-  }
+  };
 }

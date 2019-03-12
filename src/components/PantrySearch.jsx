@@ -8,7 +8,7 @@ export default function PantrySearch({
 }) {
   return (
     <div>
-      Search Ingredients:
+      Search ingredients:
       <input
         name="search"
         value={currentlySearched}

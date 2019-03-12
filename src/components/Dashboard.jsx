@@ -40,6 +40,10 @@ class Dashboard extends Component {
     this.props.getItemsAsync();
   }
 
+  /*componentDidUpdate() {
+    this.props.getItemsAsync();
+  }*/
+
   resetValues = () => {
     this.setState({
       addItem: {
