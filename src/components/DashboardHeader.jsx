@@ -8,10 +8,7 @@ export default function DashboardHeader({ user }) {
       <p>{moment().format('ll')}</p>
       <p>Hickory Soup Kitchen</p>
       <p>{user.firstname}</p>
-      <img
-        src={require('../img/mark.png')}
-        alt="user-cartoon"
-      />
+      <div>AVATAR GOES HERE AS BKCGRD</div>
       <button>Log out</button>
     </div>
   );

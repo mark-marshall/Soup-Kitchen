@@ -13,7 +13,6 @@ export const getTokenOnRegistrationAsync = user => dispatch => {
   axios()
     .post(staffRegisterURL, user)
     .then(res => {
-      console.log(res);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('id', res.data.id);
       dispatch(tokenFetched());
@@ -28,7 +27,6 @@ export const getTokenOnLoginAsync = user => dispatch => {
   axios()
     .post(staffLoginURL, user)
     .then(res => {
-      console.log(res);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('id', res.data.id);
       dispatch(tokenFetched());
