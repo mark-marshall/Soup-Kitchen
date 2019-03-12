@@ -14,7 +14,7 @@ export function error(error = null, action) {
       return action.payload;
     case types.ERROR_FETCHING_USERS:
       return action.payload;
-    case types.ERROR_FETCHING_STAFF_MEMBER:
+    case types.ERROR_FETCHING_USER:
       return action.payload;
     default:
       return error;
@@ -47,9 +47,9 @@ export function loading(loading = false, action) {
       return true;
     case types.USERS_FETCHED:
       return false;
-    case types.FETCHING_STAFF_MEMBER:
+    case types.FETCHING_USER:
       return true;
-    case types.STAFF_MEMBER_FETCHED:
+    case types.USER_FETCHED:
       return false;
     default:
       return loading;
@@ -80,7 +80,7 @@ export function users(users = [], action) {
 
 export function user(user = {}, action) {
   switch (action.type) {
-    case types.PUSH_STAFF_MEMBER:
+    case types.PUSH_USER:
       return action.payload;
     default:
       return user;

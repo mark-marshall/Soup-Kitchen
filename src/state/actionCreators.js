@@ -187,17 +187,16 @@ export const getUsersAsync = () => dispatch => {
     });
 };
 
-export const getStaffMemberAsync = id => dispatch => {
-  dispatch(fetchingStaffMember());
+export const getUserAsync = id => dispatch => {
+  dispatch(fetchingUser());
   axios()
   .get(`${userListURL}/${id}`)
   .then(res => {
-    console.log(res.data.users);
-    dispatch(pushStaffMember(res.data.users));
-    dispatch(staffMemberFetched());
+    dispatch(pushUser(res.data.users));
+    dispatch(userFetched());
   })
   .catch(err => {
-    dispatch(errorFetchingStaffMember(err.message));
+    dispatch(errorFetchingUser(err.message));
   })
 }
 
@@ -343,28 +342,28 @@ export function errorFetchingUsers(error) {
   };
 }
 
-export function fetchingStaffMember() {
+export function fetchingUser() {
   return {
-    type: types.FETCHING_STAFF_MEMBER,
+    type: types.FETCHING_USER,
   };
 }
 
-export function staffMemberFetched() {
+export function userFetched() {
   return {
-    type: types.STAFF_MEMBER_FETCHED,
+    type: types.USER_FETCHED,
   }
 }
 
-export function pushStaffMember(staffMember) {
+export function pushUser(user) {
   return {
-    type: types.PUSH_STAFF_MEMBER,
-    payload: staffMember,
+    type: types.PUSH_USER,
+    payload: user,
   }
 }
 
-export function errorFetchingStaffMember(error) {
+export function errorFetchingUser(error) {
   return {
-    type: types.ERROR_FETCHING_STAFF_MEMBER,
+    type: types.ERROR_FETCHING_USER,
     payload: error,
   }
 }

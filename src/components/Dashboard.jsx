@@ -15,7 +15,7 @@ import {
   searchItemsAsync,
   clearSearchAsync,
   getUsersAsync,
-  getStaffMemberAsync,
+  getUserAsync,
 } from '../state/actionCreators';
 
 class Dashboard extends Component {
@@ -41,9 +41,9 @@ class Dashboard extends Component {
   componentDidMount() {
     this.props.getItemsAsync();
     this.props.getUsersAsync();
-    const staffID = localStorage.getItem('id');
-    if(staffID){
-      this.props.getStaffMemberAsync(staffID);
+    const userID = localStorage.getItem('id');
+    if(userID){
+      this.props.getUserAsync(userID);
     }
   }
 
@@ -175,7 +175,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        <DashboardHeader />
+        <DashboardHeader user={this.props.user}/>
         <Pantry
           items={this.props.items}
           itemsValuesSet={this.itemsValuesSet}
@@ -206,6 +206,7 @@ function mapStateToProps(state) {
   return {
     items: state.items,
     users: state.users,
+    user: state.user,
   };
 }
 
@@ -221,7 +222,7 @@ function mapDispatchToProps(dispatch) {
       searchItemsAsync,
       clearSearchAsync,
       getUsersAsync,
-      getStaffMemberAsync,
+      getUserAsync,
     },
     dispatch,
   );
