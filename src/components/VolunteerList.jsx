@@ -9,7 +9,7 @@ export default function VolunteerList({ volunteerList }) {
             <h4>
               {`${volunteer.firstname} ${volunteer.lastname}`}
             </h4>
-            <p>{volunteer.email}</p>
+            <a href={`mailto:${volunteer.email}`}>{volunteer.email}</a>
           </div>
         ))}
       </div>

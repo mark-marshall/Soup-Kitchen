@@ -9,7 +9,7 @@ export default function StaffList({ staffList }) {
           <h4>
             {`${staff.firstname} ${staff.lastname}`}
           </h4>
-          <p>{staff.email}</p>
+          <a href={`mailto:${staff.email}`}>{staff.email}</a>
           <p>Role: {staff.role}</p>
         </div>
       ))}
