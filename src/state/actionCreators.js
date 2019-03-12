@@ -136,6 +136,33 @@ export const unfilterItemsAsync = () => dispatch => {
     });
 };
 
+export const searchItemsAsync = keyword => dispatch => {
+  dispatch(fetchingItems());
+  axios()
+    .get(getItemsURL)
+    .then(res => {
+      dispatch(pushItems(res.data.items));
+      dispatch(searchItems(keyword))
+      dispatch(itemsFetched());
+    })
+    .catch(err => {
+      dispatch(errorFetchingItems(err.message));
+    });
+};
+
+export const clearSearchAsync = () => dispatch => {
+  dispatch(fetchingItems());
+  axios()
+    .get(getItemsURL)
+    .then(res => {
+      dispatch(pushItems(res.data.items));
+      dispatch(itemsFetched());
+    })
+    .catch(err => {
+      dispatch(errorFetchingItems(err.message));
+    });
+};
+
 export function fetchingToken() {
   return {
     type: types.FETCHING_TOKEN,
@@ -242,5 +269,12 @@ export function filterItems(categoryID) {
   return {
     type: types.FILTER_ITEMS,
     payload: categoryID,
+  }
+}
+
+export function searchItems(keyword) {
+  return {
+    type: types.SEARCH_ITEMS,
+    payload: keyword,
   }
 }

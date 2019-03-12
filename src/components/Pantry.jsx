@@ -19,6 +19,10 @@ export default function Pantry({
   currentlyFiltered,
   currentlyFilteredSet,
   fireItemFilterClear,
+  currentlySearchedValuesSet,
+  fireSearchItems,
+  fireItemSearchClear,
+  currentlySearched,
 }) {
   return (
     <div>
@@ -28,6 +32,10 @@ export default function Pantry({
         currentlyFiltered={currentlyFiltered}
         currentlyFilteredSet={currentlyFilteredSet}
         fireItemFilterClear={fireItemFilterClear}
+        currentlySearchedValuesSet={currentlySearchedValuesSet}
+        fireSearchItems={fireSearchItems}
+        fireItemSearchClear={fireItemSearchClear}
+        currentlySearched={currentlySearched}
       />
       <PantryList
         items={items}

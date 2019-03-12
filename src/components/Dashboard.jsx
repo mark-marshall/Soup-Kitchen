@@ -12,6 +12,8 @@ import {
   updateItemAsync,
   filterItemsAsync,
   unfilterItemsAsync,
+  searchItemsAsync,
+  clearSearchAsync,
 } from '../state/actionCreators';
 
 class Dashboard extends Component {
@@ -23,14 +25,15 @@ class Dashboard extends Component {
       categoryID: '',
     },
     editItem: {
-        id: '',
-        name: '',
-        amount: '',
-        unit: '',
-        categoryID: '',
+      id: '',
+      name: '',
+      amount: '',
+      unit: '',
+      categoryID: '',
     },
     currentlySelected: '',
     currentlyFiltered: '',
+    currentlySearched: '',
   };
 
   componentDidMount() {
@@ -115,31 +118,52 @@ class Dashboard extends Component {
     };
     this.props.updateItemAsync(itemParse);
     this.resetEditValues();
-  }
+  };
 
   currentlyFilteredReset = () => {
     this.setState({
       currentlyFiltered: '',
-    })
-  }
+    });
+  };
 
   currentlyFilteredSet = event => {
     this.setState({
       currentlyFiltered: event.target.value,
-    })
-  }
+    });
+  };
 
   fireItemFilter = categoryID => {
     const categoryIDParse = parseInt(categoryID);
     this.props.filterItemsAsync(categoryIDParse);
     this.currentlyFilteredReset();
-  }
+  };
 
   fireItemFilterClear = () => {
     this.props.unfilterItemsAsync();
     this.currentlyFilteredReset();
-  }
+  };
 
+  currentlySearchedReset = () => {
+    this.setState({
+      currentlySearched: '',
+    });
+  };
+
+  currentlySearchedValuesSet = event => {
+    this.setState({
+      currentlySearched: event.target.value,
+    });
+  };
+
+  fireSearchItems = keyword => {
+    this.props.searchItemsAsync(keyword);
+    this.currentlySearchedReset();
+  };
+
+  fireItemSearchClear = () => {
+    this.props.clearSearchAsync();
+    this.currentlySearchedReset();
+  };
 
   render() {
     return (
@@ -159,6 +183,10 @@ class Dashboard extends Component {
           currentlyFiltered={this.state.currentlyFiltered}
           currentlyFilteredSet={this.currentlyFilteredSet}
           fireItemFilterClear={this.fireItemFilterClear}
+          currentlySearched={this.state.currentlySearched}
+          currentlySearchedValuesSet={this.currentlySearchedValuesSet}
+          fireSearchItems={this.fireSearchItems}
+          fireItemSearchClear={this.fireItemSearchClear}
         />
         <ShoppingList />
         <Staff />
@@ -182,6 +210,8 @@ function mapDispatchToProps(dispatch) {
       updateItemAsync,
       filterItemsAsync,
       unfilterItemsAsync,
+      searchItemsAsync,
+      clearSearchAsync,
     },
     dispatch,
   );

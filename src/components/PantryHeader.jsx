@@ -8,6 +8,10 @@ export default function PantryHeader({
   currentlyFiltered,
   currentlyFilteredSet,
   fireItemFilterClear,
+  currentlySearchedValuesSet,
+  fireSearchItems,
+  fireItemSearchClear,
+  currentlySearched,
 }) {
   return (
     <div>
@@ -17,7 +21,12 @@ export default function PantryHeader({
         currentlyFilteredSet={currentlyFilteredSet}
         fireItemFilterClear={fireItemFilterClear}
       />
-      <PantrySearch />
+      <PantrySearch
+        currentlySearchedValuesSet={currentlySearchedValuesSet}
+        fireSearchItems={fireSearchItems}
+        fireItemSearchClear={fireItemSearchClear}
+        currentlySearched={currentlySearched}
+      />
     </div>
   );
 }

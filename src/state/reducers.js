@@ -50,6 +50,8 @@ export function items(items = [], action) {
       return action.payload;
     case types.FILTER_ITEMS:
       return items.filter(item => item.categoryID === action.payload);
+    case types.SEARCH_ITEMS:
+      return items.filter(item => item.name === action.payload);
     default:
       return items;
   }

@@ -20,3 +20,4 @@ export const ITEM_UPDATED = "ITEM_UPDATED";
 export const ERROR_UPDATING_ITEM = "ERROR_UPDATING_ITEM";
 
 export const FILTER_ITEMS = "FILTER_ITEMS";
+export const SEARCH_ITEMS = "SEARCH_ITEMS";

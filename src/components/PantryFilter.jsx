@@ -23,7 +23,7 @@ export default function PantryFilter({
         <option value="10">Sauces</option>
       </select>
       <button onClick={() => fireItemFilter(currentlyFiltered)}>Filter</button>
-      <button onClick={() => fireItemFilterClear()}>Unfilter</button>
+      <button onClick={fireItemFilterClear}>Unfilter</button>
     </div>
   );
 }
