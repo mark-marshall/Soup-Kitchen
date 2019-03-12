@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import DashboardHeader from './DashboardHeader';
-import DashboardFooter from './DashboardFooter';
 import Pantry from './Pantry';
 import Staff from './Staff';
 import {
@@ -16,6 +15,7 @@ import {
   searchItemsAsync,
   clearSearchAsync,
   getUsersAsync,
+  getStaffMemberAsync,
 } from '../state/actionCreators';
 
 class Dashboard extends Component {
@@ -41,6 +41,10 @@ class Dashboard extends Component {
   componentDidMount() {
     this.props.getItemsAsync();
     this.props.getUsersAsync();
+    const staffID = localStorage.getItem('id');
+    if(staffID){
+      this.props.getStaffMemberAsync(staffID);
+    }
   }
 
   resetValues = () => {
@@ -193,7 +197,6 @@ class Dashboard extends Component {
           fireItemSearchClear={this.fireItemSearchClear}
         />
         <Staff users={this.props.users} />
-        <DashboardFooter />
       </div>
     );
   }
@@ -218,6 +221,7 @@ function mapDispatchToProps(dispatch) {
       searchItemsAsync,
       clearSearchAsync,
       getUsersAsync,
+      getStaffMemberAsync,
     },
     dispatch,
   );

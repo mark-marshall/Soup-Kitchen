@@ -13,7 +13,9 @@ export const getTokenOnRegistrationAsync = user => dispatch => {
   axios()
     .post(staffRegisterURL, user)
     .then(res => {
+      console.log(res);
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('id', res.data.id);
       dispatch(tokenFetched());
     })
     .catch(err => {
@@ -26,7 +28,9 @@ export const getTokenOnLoginAsync = user => dispatch => {
   axios()
     .post(staffLoginURL, user)
     .then(res => {
+      console.log(res);
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('id', res.data.id);
       dispatch(tokenFetched());
     })
     .catch(err => {
@@ -183,6 +187,20 @@ export const getUsersAsync = () => dispatch => {
     });
 };
 
+export const getStaffMemberAsync = id => dispatch => {
+  dispatch(fetchingStaffMember());
+  axios()
+  .get(`${userListURL}/${id}`)
+  .then(res => {
+    console.log(res.data.users);
+    dispatch(pushStaffMember(res.data.users));
+    dispatch(staffMemberFetched());
+  })
+  .catch(err => {
+    dispatch(errorFetchingStaffMember(err.message));
+  })
+}
+
 export function fetchingToken() {
   return {
     type: types.FETCHING_TOKEN,
@@ -323,4 +341,30 @@ export function errorFetchingUsers(error) {
     type: types.ERROR_FETCHING_USERS,
     payload: error,
   };
+}
+
+export function fetchingStaffMember() {
+  return {
+    type: types.FETCHING_STAFF_MEMBER,
+  };
+}
+
+export function staffMemberFetched() {
+  return {
+    type: types.STAFF_MEMBER_FETCHED,
+  }
+}
+
+export function pushStaffMember(staffMember) {
+  return {
+    type: types.PUSH_STAFF_MEMBER,
+    payload: staffMember,
+  }
+}
+
+export function errorFetchingStaffMember(error) {
+  return {
+    type: types.ERROR_FETCHING_STAFF_MEMBER,
+    payload: error,
+  }
 }
