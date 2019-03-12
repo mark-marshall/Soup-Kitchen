@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import DashboardHeader from './DashboardHeader';
+import DashboardFooter from './DashboardFooter';
 import Pantry from './Pantry';
 import Staff from './Staff';
 import {
@@ -169,6 +171,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
+        <DashboardHeader />
         <Pantry
           items={this.props.items}
           itemsValuesSet={this.itemsValuesSet}
@@ -189,7 +192,8 @@ class Dashboard extends Component {
           fireSearchItems={this.fireSearchItems}
           fireItemSearchClear={this.fireItemSearchClear}
         />
-        <Staff users={this.props.users}/>
+        <Staff users={this.props.users} />
+        <DashboardFooter />
       </div>
     );
   }
