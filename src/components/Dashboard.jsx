@@ -15,7 +15,6 @@ import {
   searchItemsAsync,
   clearSearchAsync,
   getUsersAsync,
-  getUserAsync,
 } from '../state/actionCreators';
 
 class Dashboard extends Component {
@@ -41,10 +40,6 @@ class Dashboard extends Component {
   componentDidMount() {
     this.props.getItemsAsync();
     this.props.getUsersAsync();
-    const userID = localStorage.getItem('id');
-    if(userID){
-      this.props.getUserAsync(userID);
-    }
   }
 
   resetValues = () => {
@@ -175,6 +170,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
+        <h1>Dashboard</h1>
         <DashboardHeader user={this.props.user}/>
         <Pantry
           items={this.props.items}
@@ -222,7 +218,6 @@ function mapDispatchToProps(dispatch) {
       searchItemsAsync,
       clearSearchAsync,
       getUsersAsync,
-      getUserAsync,
     },
     dispatch,
   );
