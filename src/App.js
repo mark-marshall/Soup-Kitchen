@@ -27,7 +27,7 @@ class App extends Component {
         <Route
           exact path="/"
           render={() =>
-            !this.props.user ? (
+            !this.props.user.id ? (
               <Redirect to="/credentials" />
             ) : this.props.user.role !== 'volunteer' ? (
               <Redirect to="/dashboard" />
@@ -40,7 +40,7 @@ class App extends Component {
         <Route
           path="/credentials"
           render={routeProps =>
-            !this.props.user ? (
+            !this.props.user.id ? (
               <Credentials {...routeProps}/>
             ) : this.props.user.role !== 'volunteer' ? (
               <Redirect to="/dashboard" />
@@ -53,14 +53,14 @@ class App extends Component {
         <Route
           path="/dashboard"
           render={routeProps =>
-            this.props.user ? <Dashboard {...routeProps}/> : <Redirect to="/credentials" />
+            this.props.user.id ? <Dashboard {...routeProps}/> : <Redirect to="/credentials" />
           }
         />
 
         <Route
           path="/volunteer"
           render={routeProps =>
-            this.props.user ? <VolunteerOpps {...routeProps}/> : <Redirect to="/credentials" />
+            this.props.user.id ? <VolunteerOpps {...routeProps}/> : <Redirect to="/credentials" />
           }
         />
 
