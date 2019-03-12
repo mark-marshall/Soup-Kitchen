@@ -120,3 +120,5 @@ const soupKitchens = [
         link: 'http://soupmobile.org/',
     },
 ]
+
+export default soupKitchens;
