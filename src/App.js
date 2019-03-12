@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, withRouter } from 'react-router-dom';
 
 import './App.css';
 import AppHeader from './components/AppHeader';
@@ -22,7 +22,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Route path="/" render={() => <AppHeader />} />
+        <Route path="/" render={routeProps => <AppHeader {...routeProps}/>} />
 
         <Route
           exact path="/"
@@ -39,9 +39,9 @@ class App extends Component {
 
         <Route
           path="/credentials"
-          render={() =>
+          render={routeProps =>
             !this.props.user ? (
-              <Credentials />
+              <Credentials {...routeProps}/>
             ) : this.props.user.role !== 'volunteer' ? (
               <Redirect to="/dashboard" />
             ) : (
@@ -52,19 +52,19 @@ class App extends Component {
 
         <Route
           path="/dashboard"
-          render={() =>
-            this.props.user ? <Dashboard /> : <Redirect to="/credentials" />
+          render={routeProps =>
+            this.props.user ? <Dashboard {...routeProps}/> : <Redirect to="/credentials" />
           }
         />
 
         <Route
           path="/volunteer"
-          render={() =>
-            this.props.user ? <VolunteerOpps /> : <Redirect to="/credentials" />
+          render={routeProps =>
+            this.props.user ? <VolunteerOpps {...routeProps}/> : <Redirect to="/credentials" />
           }
         />
 
-        <Route path="/" render={() => <AppFooter />} />
+        <Route path="/" render={routeProps => <AppFooter {...routeProps}/>} />
       </div>
     );
   }
@@ -85,7 +85,7 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(App);
+)(App));

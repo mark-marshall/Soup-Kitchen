@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Route, NavLink, withRouter } from 'react-router-dom';
 
 import DashboardHeader from './DashboardHeader';
 import Pantry from './Pantry';
@@ -170,29 +171,45 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        <h1>Dashboard</h1>
-        <DashboardHeader user={this.props.user}/>
-        <Pantry
-          items={this.props.items}
-          itemsValuesSet={this.itemsValuesSet}
-          addItem={this.state.addItem}
-          fireAddItem={this.fireAddItem}
-          fireDeleteItem={this.fireDeleteItem}
-          currentlySelectedSet={this.currentlySelectedSet}
-          editItem={this.state.editItem}
-          editValuesSet={this.editValuesSet}
-          resetEditValues={this.resetEditValues}
-          fireUpdateItem={this.fireUpdateItem}
-          fireItemFilter={this.fireItemFilter}
-          currentlyFiltered={this.state.currentlyFiltered}
-          currentlyFilteredSet={this.currentlyFilteredSet}
-          fireItemFilterClear={this.fireItemFilterClear}
-          currentlySearched={this.state.currentlySearched}
-          currentlySearchedValuesSet={this.currentlySearchedValuesSet}
-          fireSearchItems={this.fireSearchItems}
-          fireItemSearchClear={this.fireItemSearchClear}
+        <Route
+          path="/dashboard/"
+          render={routeProps => <DashboardHeader {...routeProps} user={this.props.user} />}
         />
-        <Staff users={this.props.users} />
+        <nav>
+        <NavLink to="/dashboard/">Pantry</NavLink>
+        <NavLink to="/dashboard/team">Team</NavLink>
+        </nav>
+
+        <Route
+          exact path="/dashboard/"
+          render={routeProps => (
+            <Pantry
+              {...routeProps}
+              items={this.props.items}
+              itemsValuesSet={this.itemsValuesSet}
+              addItem={this.state.addItem}
+              fireAddItem={this.fireAddItem}
+              fireDeleteItem={this.fireDeleteItem}
+              currentlySelectedSet={this.currentlySelectedSet}
+              editItem={this.state.editItem}
+              editValuesSet={this.editValuesSet}
+              resetEditValues={this.resetEditValues}
+              fireUpdateItem={this.fireUpdateItem}
+              fireItemFilter={this.fireItemFilter}
+              currentlyFiltered={this.state.currentlyFiltered}
+              currentlyFilteredSet={this.currentlyFilteredSet}
+              fireItemFilterClear={this.fireItemFilterClear}
+              currentlySearched={this.state.currentlySearched}
+              currentlySearchedValuesSet={this.currentlySearchedValuesSet}
+              fireSearchItems={this.fireSearchItems}
+              fireItemSearchClear={this.fireItemSearchClear}
+            />
+          )}
+        />
+        <Route
+          path="/dashboard/team"
+          render={routeProps => <Staff {...routeProps} users={this.props.users} />}
+        />
       </div>
     );
   }
@@ -223,7 +240,7 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Dashboard);
+)(Dashboard));
