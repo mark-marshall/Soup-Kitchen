@@ -10,6 +10,8 @@ import {
   addItemAsync,
   deleteItemAsync,
   updateItemAsync,
+  filterItemsAsync,
+  unfilterItemsAsync,
 } from '../state/actionCreators';
 
 class Dashboard extends Component {
@@ -28,6 +30,7 @@ class Dashboard extends Component {
         categoryID: '',
     },
     currentlySelected: '',
+    currentlyFiltered: '',
   };
 
   componentDidMount() {
@@ -114,6 +117,30 @@ class Dashboard extends Component {
     this.resetEditValues();
   }
 
+  currentlyFilteredReset = () => {
+    this.setState({
+      currentlyFiltered: '',
+    })
+  }
+
+  currentlyFilteredSet = event => {
+    this.setState({
+      currentlyFiltered: event.target.value,
+    })
+  }
+
+  fireItemFilter = categoryID => {
+    const categoryIDParse = parseInt(categoryID);
+    this.props.filterItemsAsync(categoryIDParse);
+    this.currentlyFilteredReset();
+  }
+
+  fireItemFilterClear = () => {
+    this.props.unfilterItemsAsync();
+    this.currentlyFilteredReset();
+  }
+
+
   render() {
     return (
       <div>
@@ -128,6 +155,10 @@ class Dashboard extends Component {
           editValuesSet={this.editValuesSet}
           resetEditValues={this.resetEditValues}
           fireUpdateItem={this.fireUpdateItem}
+          fireItemFilter={this.fireItemFilter}
+          currentlyFiltered={this.state.currentlyFiltered}
+          currentlyFilteredSet={this.currentlyFilteredSet}
+          fireItemFilterClear={this.fireItemFilterClear}
         />
         <ShoppingList />
         <Staff />
@@ -149,6 +180,8 @@ function mapDispatchToProps(dispatch) {
       addItemAsync,
       deleteItemAsync,
       updateItemAsync,
+      filterItemsAsync,
+      unfilterItemsAsync,
     },
     dispatch,
   );

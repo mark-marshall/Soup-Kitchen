@@ -109,6 +109,33 @@ export const updateItemAsync = item => dispatch => {
   });
 }
 
+export const filterItemsAsync = categoryID => dispatch => {
+  dispatch(fetchingItems());
+  axios()
+    .get(getItemsURL)
+    .then(res => {
+      dispatch(pushItems(res.data.items));
+      dispatch(filterItems(categoryID))
+      dispatch(itemsFetched());
+    })
+    .catch(err => {
+      dispatch(errorFetchingItems(err.message));
+    });
+};
+
+export const unfilterItemsAsync = () => dispatch => {
+  dispatch(fetchingItems());
+  axios()
+    .get(getItemsURL)
+    .then(res => {
+      dispatch(pushItems(res.data.items));
+      dispatch(itemsFetched());
+    })
+    .catch(err => {
+      dispatch(errorFetchingItems(err.message));
+    });
+};
+
 export function fetchingToken() {
   return {
     type: types.FETCHING_TOKEN,
@@ -208,5 +235,12 @@ export function errorUpdatingItem(error) {
   return {
     type: types.ERROR_UPDATING_ITEM,
     payload: error,
+  }
+}
+
+export function filterItems(categoryID) {
+  return {
+    type: types.FILTER_ITEMS,
+    payload: categoryID,
   }
 }

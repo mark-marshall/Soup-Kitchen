@@ -48,6 +48,8 @@ export function items(items = [], action) {
   switch (action.type) {
     case types.PUSH_ITEMS:
       return action.payload;
+    case types.FILTER_ITEMS:
+      return items.filter(item => item.categoryID === action.payload);
     default:
       return items;
   }
