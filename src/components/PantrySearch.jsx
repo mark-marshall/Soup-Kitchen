@@ -2,9 +2,7 @@ import React from 'react';
 
 export default function PantrySearch({
   currentlySearched,
-  currentlySearchedValuesSet,
   fireSearchItems,
-  fireItemSearchClear,
 }) {
   return (
     <div>
@@ -12,10 +10,8 @@ export default function PantrySearch({
       <input
         name="search"
         value={currentlySearched}
-        onChange={currentlySearchedValuesSet}
+        onChange={fireSearchItems}
       />
-      <button onClick={() => fireSearchItems(currentlySearched)}>Search</button>
-      <button onClick={fireItemSearchClear}>Clear</button>
     </div>
   );
 }

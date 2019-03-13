@@ -168,15 +168,11 @@ class Dashboard extends Component {
     });
   };
 
-  fireSearchItems = keyword => {
+  fireSearchItems = event => {
+    this.currentlySearchedValuesSet(event);
+    const keyword = event.target.value;
     this.props.searchItemsAsync(keyword);
-    this.currentlySearchedReset();
-  };
-
-  fireItemSearchClear = () => {
-    this.props.clearSearchAsync();
-    this.currentlySearchedReset();
-  };
+  }
 
   fireLogout = () => {
     this.props.logout();
@@ -222,9 +218,7 @@ class Dashboard extends Component {
                 fireUpdateItem={this.fireUpdateItem}
                 fireItemFilter={this.fireItemFilter}
                 currentlySearched={this.state.currentlySearched}
-                currentlySearchedValuesSet={this.currentlySearchedValuesSet}
                 fireSearchItems={this.fireSearchItems}
-                fireItemSearchClear={this.fireItemSearchClear}
               />
             )}
           />

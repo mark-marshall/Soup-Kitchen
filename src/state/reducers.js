@@ -51,7 +51,7 @@ export function items(items = [], action) {
     case types.FILTER_ITEMS:
       return items.filter(item => item.categoryID === action.payload);
     case types.SEARCH_ITEMS:
-      return items.filter(item => item.name === action.payload);
+      return items.filter(item => item.name.startsWith(action.payload));
     default:
       return items;
   }

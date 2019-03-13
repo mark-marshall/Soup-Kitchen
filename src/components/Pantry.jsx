@@ -16,20 +16,16 @@ export default function Pantry({
   resetEditValues,
   fireUpdateItem,
   fireItemFilter,
-  currentlySearchedValuesSet,
-  fireSearchItems,
-  fireItemSearchClear,
   currentlySearched,
+  fireSearchItems,
 }) {
   return (
     <div>
       <h3>Pantry</h3>
       <PantryHeader
         fireItemFilter={fireItemFilter}
-        currentlySearchedValuesSet={currentlySearchedValuesSet}
-        fireSearchItems={fireSearchItems}
-        fireItemSearchClear={fireItemSearchClear}
         currentlySearched={currentlySearched}
+        fireSearchItems={fireSearchItems}
       />
       <PantryList
         items={items}
