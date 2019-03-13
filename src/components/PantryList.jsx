@@ -55,7 +55,7 @@ export default function PantryList({
               </div>
               <div>
                 Category:
-                <select name="categoryID" defaultValue={item.categoryID}>
+                <select name="categoryID" value={editItem.categoryID} onChange={editValuesSet}>
                   <option value="1">Fruits</option>
                   <option value="2">Vegetables</option>
                   <option value="3">Utensils</option>
