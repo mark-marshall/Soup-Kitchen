@@ -14,7 +14,6 @@ import { getUserAsync, setVolunteerLogin } from '../src/state/actionCreators';
 class App extends Component {
   componentDidMount() {
     const userID = localStorage.getItem('id');
-    console.log(userID);
     const userRole = localStorage.getItem('role');
     if(userID && userRole !== 'volunteer') {
       this.props.getUserAsync(userID);

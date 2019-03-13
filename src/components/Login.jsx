@@ -16,6 +16,14 @@ export default function Login({ loginUser, loginValuesSet, fireLogin }) {
           onChange={loginValuesSet}
         />
       </div>
+      <select name="role" onChange={loginValuesSet}>
+          <option disable="true">
+            Choose a role
+          </option>
+          <option value="admin">Admin</option>
+          <option value="staff">Staff</option>
+          <option value="volunteer">Volunteer</option>
+        </select>
       <button onClick={() => fireLogin(loginUser)}>Log In</button>
     </div>
   );

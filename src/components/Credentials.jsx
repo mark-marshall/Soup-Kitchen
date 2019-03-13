@@ -22,6 +22,7 @@ class Credentials extends Component {
     loginUser: {
       email: '',
       password: '',
+      role: '',
     },
   };
 
@@ -37,6 +38,7 @@ class Credentials extends Component {
       loginUser: {
         email: '',
         password: '',
+        role: '',
       },
     });
   };

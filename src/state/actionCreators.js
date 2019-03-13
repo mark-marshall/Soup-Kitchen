@@ -17,6 +17,21 @@ export const getTokenOnRegistrationAsync = user => dispatch => {
       localStorage.setItem('id', res.data.id);
       localStorage.setItem('role', JSON.parse(res.config.data).role);
       dispatch(tokenFetched());
+      if (JSON.parse(res.config.data).role !== 'volunteer') {
+        dispatch(fetchingUser());
+        axios()
+          .get(`${userListURL}/${res.data.id}`)
+          .then(res => {
+            dispatch(pushUser(res.data.users));
+            dispatch(userFetched());
+          })
+          .catch(err => {
+            dispatch(errorFetchingUser(err.message));
+          });
+      }
+      if (JSON.parse(res.config.data).role === 'volunteer') {
+        dispatch(setVolunteerLogin());
+      }
     })
     .catch(err => {
       dispatch(errorFetchingToken(err.message));
@@ -32,6 +47,23 @@ export const getTokenOnLoginAsync = user => dispatch => {
       localStorage.setItem('id', res.data.id);
       localStorage.setItem('role', JSON.parse(res.config.data).role);
       dispatch(tokenFetched());
+      console.log(res);
+        if (user.role !== 'volunteer') {
+          dispatch(fetchingUser());
+          axios()
+            .get(`${userListURL}/${res.data.id}`)
+            .then(res => {
+              dispatch(pushUser(res.data.users));
+              dispatch(userFetched());
+            })
+            .catch(err => {
+              dispatch(errorFetchingUser(err.message));
+            });
+        }
+        if (user.role === 'volunteer') {
+          dispatch(setVolunteerLogin());
+        }
+      
     })
     .catch(err => {
       dispatch(errorFetchingToken(err.message));
@@ -63,7 +95,6 @@ export const addItemAsync = item => dispatch => {
         .get(getItemsURL)
         .then(res => {
           dispatch(pushItems(res.data.items));
-          dispatch(itemsFetched());
         })
         .catch(err => {
           dispatch(errorFetchingItems(err.message));
@@ -89,7 +120,6 @@ export const deleteItemAsync = id => dispatch => {
       .get(getItemsURL)
       .then(res => {
         dispatch(pushItems(res.data.items));
-        dispatch(itemsFetched());
       })
       .catch(err => {
         dispatch(errorFetchingItems(err.message));
@@ -112,7 +142,6 @@ export const updateItemAsync = item => dispatch => {
       .get(getItemsURL)
       .then(res => {
         dispatch(pushItems(res.data.items));
-        dispatch(itemsFetched());
       })
       .catch(err => {
         dispatch(errorFetchingItems(err.message));
@@ -190,15 +219,15 @@ export const getUsersAsync = () => dispatch => {
 export const getUserAsync = id => dispatch => {
   dispatch(fetchingUser());
   axios()
-  .get(`${userListURL}/${id}`)
-  .then(res => {
-    dispatch(pushUser(res.data.users));
-    dispatch(userFetched());
-  })
-  .catch(err => {
-    dispatch(errorFetchingUser(err.message));
-  })
-}
+    .get(`${userListURL}/${id}`)
+    .then(res => {
+      dispatch(pushUser(res.data.users));
+      dispatch(userFetched());
+    })
+    .catch(err => {
+      dispatch(errorFetchingUser(err.message));
+    });
+};
 
 export function fetchingToken() {
   return {
@@ -351,25 +380,25 @@ export function fetchingUser() {
 export function userFetched() {
   return {
     type: types.USER_FETCHED,
-  }
+  };
 }
 
 export function pushUser(user) {
   return {
     type: types.PUSH_USER,
     payload: user,
-  }
+  };
 }
 
 export function errorFetchingUser(error) {
   return {
     type: types.ERROR_FETCHING_USER,
     payload: error,
-  }
+  };
 }
 
 export function setVolunteerLogin() {
   return {
     type: types.SET_VOLUNTEER_LOGIN,
-  }
+  };
 }
