@@ -5,8 +5,19 @@ import VolunteerList from './VolunteerList';
 import StaffList from './StaffList';
 
 export default function Staff({ users }) {
-  const staffList = users.filter(user => user.role !== 'volunteer');
-  const volunteerList = users.filter(user => user.role === 'volunteer');
+  const staffSorted = users.sort(function(a, b) {
+    const nameA = a.lastname.toUpperCase();
+    const nameB = b.lastname.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });
+  const staffList = staffSorted.filter(user => user.role !== 'volunteer');
+  const volunteerList = staffSorted.filter(user => user.role === 'volunteer');
   return (
     <div>
       <h3>Team</h3>
