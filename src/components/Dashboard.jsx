@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Route, NavLink, withRouter } from 'react-router-dom';
 
+import DashboardHeader from './DashboardHeader';
 import Pantry from './Pantry';
-import ShoppingList from './ShoppingList';
 import Staff from './Staff';
 import {
   getItemsAsync,
   addItemAsync,
   deleteItemAsync,
   updateItemAsync,
+  filterItemsAsync,
+  unfilterItemsAsync,
+  searchItemsAsync,
+  clearSearchAsync,
+  getUsersAsync,
 } from '../state/actionCreators';
 
 class Dashboard extends Component {
@@ -21,17 +27,20 @@ class Dashboard extends Component {
       categoryID: '',
     },
     editItem: {
-        id: '',
-        name: '',
-        amount: '',
-        unit: '',
-        categoryID: '',
+      id: '',
+      name: '',
+      amount: '',
+      unit: '',
+      categoryID: '',
     },
     currentlySelected: '',
+    currentlyFiltered: '',
+    currentlySearched: '',
   };
 
   componentDidMount() {
     this.props.getItemsAsync();
+    this.props.getUsersAsync();
   }
 
   resetValues = () => {
@@ -112,25 +121,99 @@ class Dashboard extends Component {
     };
     this.props.updateItemAsync(itemParse);
     this.resetEditValues();
-  }
+  };
+
+  currentlyFilteredReset = () => {
+    this.setState({
+      currentlyFiltered: '',
+    });
+  };
+
+  currentlyFilteredSet = event => {
+    this.setState({
+      currentlyFiltered: event.target.value,
+    });
+  };
+
+  fireItemFilter = categoryID => {
+    const categoryIDParse = parseInt(categoryID);
+    this.props.filterItemsAsync(categoryIDParse);
+    this.currentlyFilteredReset();
+  };
+
+  fireItemFilterClear = () => {
+    this.props.unfilterItemsAsync();
+    this.currentlyFilteredReset();
+  };
+
+  currentlySearchedReset = () => {
+    this.setState({
+      currentlySearched: '',
+    });
+  };
+
+  currentlySearchedValuesSet = event => {
+    this.setState({
+      currentlySearched: event.target.value,
+    });
+  };
+
+  fireSearchItems = keyword => {
+    this.props.searchItemsAsync(keyword);
+    this.currentlySearchedReset();
+  };
+
+  fireItemSearchClear = () => {
+    this.props.clearSearchAsync();
+    this.currentlySearchedReset();
+  };
 
   render() {
     return (
       <div>
-        <Pantry
-          items={this.props.items}
-          itemsValuesSet={this.itemsValuesSet}
-          addItem={this.state.addItem}
-          fireAddItem={this.fireAddItem}
-          fireDeleteItem={this.fireDeleteItem}
-          currentlySelectedSet={this.currentlySelectedSet}
-          editItem={this.state.editItem}
-          editValuesSet={this.editValuesSet}
-          resetEditValues={this.resetEditValues}
-          fireUpdateItem={this.fireUpdateItem}
+        <Route
+          path="/dashboard/"
+          render={routeProps => (
+            <DashboardHeader {...routeProps} user={this.props.user} />
+          )}
         />
-        <ShoppingList />
-        <Staff />
+        <nav>
+          <NavLink to="/dashboard/">Pantry</NavLink>
+          <NavLink to="/dashboard/team">Team</NavLink>
+        </nav>
+        <Route
+          exact
+          path="/dashboard/"
+          render={routeProps => (
+            <Pantry
+              {...routeProps}
+              items={this.props.items}
+              itemsValuesSet={this.itemsValuesSet}
+              addItem={this.state.addItem}
+              fireAddItem={this.fireAddItem}
+              fireDeleteItem={this.fireDeleteItem}
+              currentlySelectedSet={this.currentlySelectedSet}
+              editItem={this.state.editItem}
+              editValuesSet={this.editValuesSet}
+              resetEditValues={this.resetEditValues}
+              fireUpdateItem={this.fireUpdateItem}
+              fireItemFilter={this.fireItemFilter}
+              currentlyFiltered={this.state.currentlyFiltered}
+              currentlyFilteredSet={this.currentlyFilteredSet}
+              fireItemFilterClear={this.fireItemFilterClear}
+              currentlySearched={this.state.currentlySearched}
+              currentlySearchedValuesSet={this.currentlySearchedValuesSet}
+              fireSearchItems={this.fireSearchItems}
+              fireItemSearchClear={this.fireItemSearchClear}
+            />
+          )}
+        />
+        <Route
+          path="/dashboard/team"
+          render={routeProps => (
+            <Staff {...routeProps} users={this.props.users} />
+          )}
+        />
       </div>
     );
   }
@@ -139,6 +222,8 @@ class Dashboard extends Component {
 function mapStateToProps(state) {
   return {
     items: state.items,
+    users: state.users,
+    user: state.user,
   };
 }
 
@@ -149,12 +234,19 @@ function mapDispatchToProps(dispatch) {
       addItemAsync,
       deleteItemAsync,
       updateItemAsync,
+      filterItemsAsync,
+      unfilterItemsAsync,
+      searchItemsAsync,
+      clearSearchAsync,
+      getUsersAsync,
     },
     dispatch,
   );
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Dashboard);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Dashboard),
+);

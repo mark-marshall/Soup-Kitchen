@@ -24,7 +24,7 @@ export default function PantryList({
   });
 
   return (
-    <ol>
+    <ul>
       {itemsSorted.map(item => {
         if (item.id === editItem.id) {
           return (
@@ -87,6 +87,6 @@ export default function PantryList({
           );
         }
       })}
-    </ol>
+    </ul>
   );
 }

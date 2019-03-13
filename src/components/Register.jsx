@@ -12,7 +12,7 @@ export default function Register({
         Name:{' '}
         <input
           name="firstname"
-          value={registerUser.name}
+          value={registerUser.firstname}
           onChange={registerValuesSet}
         />
       </div>
@@ -20,7 +20,7 @@ export default function Register({
         Surname:{' '}
         <input
           name="lastname"
-          value={registerUser.surname}
+          value={registerUser.lastname}
           onChange={registerValuesSet}
         />
       </div>
