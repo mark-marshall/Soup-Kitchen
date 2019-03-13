@@ -72,38 +72,51 @@ class Credentials extends Component {
   };
 
   render() {
-    return (
-      <div>
-        <nav>
-          <NavLink to="/credentials/">Login</NavLink>
-          <NavLink to="/credentials/register">Register</NavLink>
-        </nav>
-        <Route
-          exact
-          path="/credentials/"
-          render={routeProps => (
-            <Login
-              {...routeProps}
-              loginUser={this.state.loginUser}
-              loginValuesSet={this.loginValuesSet}
-              fireLogin={this.fireLogin}
-            />
-          )}
-        />
-        <Route
-          path="/credentials/register"
-          render={routeProps => (
-            <Register
-              {...routeProps}
-              registerUser={this.state.registerUser}
-              registerValuesSet={this.registerValuesSet}
-              fireRegistration={this.fireRegistration}
-            />
-          )}
-        />
-      </div>
-    );
+    if (this.props.error) {
+      return <div>{this.props.error}</div>;
+    } else if (this.props.loading) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+        <div>
+          <nav>
+            <NavLink to="/credentials/">Login</NavLink>
+            <NavLink to="/credentials/register">Register</NavLink>
+          </nav>
+          <Route
+            exact
+            path="/credentials/"
+            render={routeProps => (
+              <Login
+                {...routeProps}
+                loginUser={this.state.loginUser}
+                loginValuesSet={this.loginValuesSet}
+                fireLogin={this.fireLogin}
+              />
+            )}
+          />
+          <Route
+            path="/credentials/register"
+            render={routeProps => (
+              <Register
+                {...routeProps}
+                registerUser={this.state.registerUser}
+                registerValuesSet={this.registerValuesSet}
+                fireRegistration={this.fireRegistration}
+              />
+            )}
+          />
+        </div>
+      );
+    }
   }
+}
+
+function mapStateToProps(state) {
+  return {
+    loading: state.loading,
+    error: state.error,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -118,7 +131,7 @@ function mapDispatchToProps(dispatch) {
 
 export default withRouter(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
   )(Credentials),
 );

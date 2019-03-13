@@ -4,9 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import soupKitchens from '../data/soupKitchens';
 import SoupKitchenList from './SoupKitchenList';
-import {
-  logout,
-} from '../state/actionCreators';
+import { logout } from '../state/actionCreators';
 
 class VolunteerOpps extends Component {
   state = {
@@ -21,17 +19,30 @@ class VolunteerOpps extends Component {
   fireLogout = () => {
     this.props.logout();
     localStorage.clear();
-  }
+  };
 
   render() {
-    return (
-      <div>
-        <h1>Check out our list of soup kitchens</h1>
-        <button onClick={this.fireLogout}>Log out</button>
-        <SoupKitchenList kitchens={this.state.kitchens}/>
-      </div>
-    );
+    if (this.props.error) {
+      return <div>{this.props.error}</div>;
+    } else if (this.props.loading) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+        <div>
+          <h1>Check out our list of soup kitchens</h1>
+          <button onClick={this.fireLogout}>Log out</button>
+          <SoupKitchenList kitchens={this.state.kitchens} />
+        </div>
+      );
+    }
   }
+}
+
+function mapStateToProps(state) {
+  return {
+    loading: state.loading,
+    errr: state.error,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -43,4 +54,7 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-export default connect(null, mapDispatchToProps)(VolunteerOpps);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(VolunteerOpps);

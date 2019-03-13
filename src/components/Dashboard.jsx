@@ -172,60 +172,66 @@ class Dashboard extends Component {
   fireLogout = () => {
     this.props.logout();
     localStorage.clear();
-  }
+  };
 
   render() {
-    return (
-      <div>
-        <Route
-          path="/dashboard/"
-          render={routeProps => (
-            <DashboardHeader
-              {...routeProps}
-              user={this.props.user}
-              fireLogout={this.fireLogout}
-            />
-          )}
-        />
-        <nav>
-          <NavLink to="/dashboard/">Pantry</NavLink>
-          <NavLink to="/dashboard/team">Team</NavLink>
-        </nav>
-        <Route
-          exact
-          path="/dashboard/"
-          render={routeProps => (
-            <Pantry
-              {...routeProps}
-              items={this.props.items}
-              itemsValuesSet={this.itemsValuesSet}
-              addItem={this.state.addItem}
-              fireAddItem={this.fireAddItem}
-              fireDeleteItem={this.fireDeleteItem}
-              currentlySelectedSet={this.currentlySelectedSet}
-              editItem={this.state.editItem}
-              editValuesSet={this.editValuesSet}
-              resetEditValues={this.resetEditValues}
-              fireUpdateItem={this.fireUpdateItem}
-              fireItemFilter={this.fireItemFilter}
-              currentlyFiltered={this.state.currentlyFiltered}
-              currentlyFilteredSet={this.currentlyFilteredSet}
-              fireItemFilterClear={this.fireItemFilterClear}
-              currentlySearched={this.state.currentlySearched}
-              currentlySearchedValuesSet={this.currentlySearchedValuesSet}
-              fireSearchItems={this.fireSearchItems}
-              fireItemSearchClear={this.fireItemSearchClear}
-            />
-          )}
-        />
-        <Route
-          path="/dashboard/team"
-          render={routeProps => (
-            <Staff {...routeProps} users={this.props.users} />
-          )}
-        />
-      </div>
-    );
+    if (this.props.error) {
+      return <div>{this.props.error}</div>;
+    } else if (this.props.loading) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+        <div>
+          <Route
+            path="/dashboard/"
+            render={routeProps => (
+              <DashboardHeader
+                {...routeProps}
+                user={this.props.user}
+                fireLogout={this.fireLogout}
+              />
+            )}
+          />
+          <nav>
+            <NavLink to="/dashboard/">Pantry</NavLink>
+            <NavLink to="/dashboard/team">Team</NavLink>
+          </nav>
+          <Route
+            exact
+            path="/dashboard/"
+            render={routeProps => (
+              <Pantry
+                {...routeProps}
+                items={this.props.items}
+                itemsValuesSet={this.itemsValuesSet}
+                addItem={this.state.addItem}
+                fireAddItem={this.fireAddItem}
+                fireDeleteItem={this.fireDeleteItem}
+                currentlySelectedSet={this.currentlySelectedSet}
+                editItem={this.state.editItem}
+                editValuesSet={this.editValuesSet}
+                resetEditValues={this.resetEditValues}
+                fireUpdateItem={this.fireUpdateItem}
+                fireItemFilter={this.fireItemFilter}
+                currentlyFiltered={this.state.currentlyFiltered}
+                currentlyFilteredSet={this.currentlyFilteredSet}
+                fireItemFilterClear={this.fireItemFilterClear}
+                currentlySearched={this.state.currentlySearched}
+                currentlySearchedValuesSet={this.currentlySearchedValuesSet}
+                fireSearchItems={this.fireSearchItems}
+                fireItemSearchClear={this.fireItemSearchClear}
+              />
+            )}
+          />
+          <Route
+            path="/dashboard/team"
+            render={routeProps => (
+              <Staff {...routeProps} users={this.props.users} />
+            )}
+          />
+        </div>
+      );
+    }
   }
 }
 
@@ -234,6 +240,8 @@ function mapStateToProps(state) {
     items: state.items,
     users: state.users,
     user: state.user,
+    loading: state.loading,
+    error: state.error,
   };
 }
 
