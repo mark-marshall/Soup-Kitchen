@@ -12,7 +12,6 @@ import {
   deleteItemAsync,
   updateItemAsync,
   filterItemsAsync,
-  unfilterItemsAsync,
   searchItemsAsync,
   clearSearchAsync,
   getUsersAsync,
@@ -35,7 +34,6 @@ class Dashboard extends Component {
       categoryID: '',
     },
     currentlySelected: '',
-    currentlyFiltered: '',
     currentlySearched: '',
   };
 
@@ -152,16 +150,11 @@ class Dashboard extends Component {
     });
   };
 
-  fireItemFilter = categoryID => {
-    const categoryIDParse = parseInt(categoryID);
+  fireItemFilter = event => {
+    const categoryIDParse = parseInt(event.target.value);
     this.props.filterItemsAsync(categoryIDParse);
     this.currentlyFilteredReset();
-  };
-
-  fireItemFilterClear = () => {
-    this.props.unfilterItemsAsync();
-    this.currentlyFilteredReset();
-  };
+  }
 
   currentlySearchedReset = () => {
     this.setState({
@@ -193,9 +186,8 @@ class Dashboard extends Component {
   render() {
     if (this.props.error) {
       return <div>We're in a soup here: {this.props.error}</div>;
-    } else if (this.props.loading) {
-      return <div>Loading...</div>;
-    } else {
+    } else 
+    {
       return (
         <div>
           <Route
@@ -229,9 +221,6 @@ class Dashboard extends Component {
                 resetEditValues={this.resetEditValues}
                 fireUpdateItem={this.fireUpdateItem}
                 fireItemFilter={this.fireItemFilter}
-                currentlyFiltered={this.state.currentlyFiltered}
-                currentlyFilteredSet={this.currentlyFilteredSet}
-                fireItemFilterClear={this.fireItemFilterClear}
                 currentlySearched={this.state.currentlySearched}
                 currentlySearchedValuesSet={this.currentlySearchedValuesSet}
                 fireSearchItems={this.fireSearchItems}
@@ -269,7 +258,6 @@ function mapDispatchToProps(dispatch) {
       deleteItemAsync,
       updateItemAsync,
       filterItemsAsync,
-      unfilterItemsAsync,
       searchItemsAsync,
       clearSearchAsync,
       getUsersAsync,

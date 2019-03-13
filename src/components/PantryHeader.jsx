@@ -5,9 +5,6 @@ import PantrySearch from './PantrySearch';
 
 export default function PantryHeader({
   fireItemFilter,
-  currentlyFiltered,
-  currentlyFilteredSet,
-  fireItemFilterClear,
   currentlySearchedValuesSet,
   fireSearchItems,
   fireItemSearchClear,
@@ -17,9 +14,6 @@ export default function PantryHeader({
     <div>
       <PantryFilter
         fireItemFilter={fireItemFilter}
-        currentlyFiltered={currentlyFiltered}
-        currentlyFilteredSet={currentlyFilteredSet}
-        fireItemFilterClear={fireItemFilterClear}
       />
       <PantrySearch
         currentlySearchedValuesSet={currentlySearchedValuesSet}

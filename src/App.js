@@ -15,10 +15,10 @@ class App extends Component {
   componentDidMount() {
     const userID = localStorage.getItem('id');
     const userRole = localStorage.getItem('role');
-    if(userID && userRole !== 'volunteer') {
+    if (userID && userRole !== 'volunteer') {
       this.props.getUserAsync(userID);
     }
-    if(userID && userRole === 'volunteer') {
+    if (userID && userRole === 'volunteer') {
       this.props.setVolunteerLogin();
     }
   }

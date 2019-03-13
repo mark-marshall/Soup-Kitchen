@@ -169,40 +169,40 @@ export const updateItemAsync = item => dispatch => {
 };
 
 export const filterItemsAsync = categoryID => dispatch => {
-  dispatch(fetchingItems());
-  axios()
-    .get(urls.getItemsURL)
-    .then(res => {
-      if (res.data.message === 'jwt expired') {
-        dispatch(logout);
-        localStorage.clear();
-      } else {
-        dispatch(pushItems(res.data.items));
-        dispatch(filterItems(categoryID));
-        dispatch(itemsFetched());
-      }
-    })
-    .catch(err => {
-      dispatch(errorFetchingItems(err.message));
-    });
-};
-
-export const unfilterItemsAsync = () => dispatch => {
-  dispatch(fetchingItems());
-  axios()
-    .get(urls.getItemsURL)
-    .then(res => {
-      if (res.data.message === 'jwt expired') {
-        dispatch(logout);
-        localStorage.clear();
-      } else {
-        dispatch(pushItems(res.data.items));
-        dispatch(itemsFetched());
-      }
-    })
-    .catch(err => {
-      dispatch(errorFetchingItems(err.message));
-    });
+  if (categoryID === 0) {
+    dispatch(fetchingItems());
+    axios()
+      .get(urls.getItemsURL)
+      .then(res => {
+        if (res.data.message === 'jwt expired') {
+          dispatch(logout);
+          localStorage.clear();
+        } else {
+          dispatch(pushItems(res.data.items));
+          dispatch(itemsFetched());
+        }
+      })
+      .catch(err => {
+        dispatch(errorFetchingItems(err.message));
+      });
+  } else {
+    dispatch(fetchingItems());
+    axios()
+      .get(urls.getItemsURL)
+      .then(res => {
+        if (res.data.message === 'jwt expired') {
+          dispatch(logout);
+          localStorage.clear();
+        } else {
+          dispatch(pushItems(res.data.items));
+          dispatch(filterItems(categoryID));
+          dispatch(itemsFetched());
+        }
+      })
+      .catch(err => {
+        dispatch(errorFetchingItems(err.message));
+      });
+  }
 };
 
 export const searchItemsAsync = keyword => dispatch => {

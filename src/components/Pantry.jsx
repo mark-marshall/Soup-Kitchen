@@ -16,9 +16,6 @@ export default function Pantry({
   resetEditValues,
   fireUpdateItem,
   fireItemFilter,
-  currentlyFiltered,
-  currentlyFilteredSet,
-  fireItemFilterClear,
   currentlySearchedValuesSet,
   fireSearchItems,
   fireItemSearchClear,
@@ -29,9 +26,6 @@ export default function Pantry({
       <h3>Pantry</h3>
       <PantryHeader
         fireItemFilter={fireItemFilter}
-        currentlyFiltered={currentlyFiltered}
-        currentlyFilteredSet={currentlyFilteredSet}
-        fireItemFilterClear={fireItemFilterClear}
         currentlySearchedValuesSet={currentlySearchedValuesSet}
         fireSearchItems={fireSearchItems}
         fireItemSearchClear={fireItemSearchClear}

@@ -1,16 +1,13 @@
 import React from 'react';
 
 export default function PantryFilter({
-  currentlyFiltered,
   fireItemFilter,
-  currentlyFilteredSet,
-  fireItemFilterClear,
 }) {
   return (
     <div>
       Filter by type:
-      <select name="categoryID" onChange={currentlyFilteredSet}>
-        <option disable="true">Choose a type</option>
+      <select name="categoryID" onChange={fireItemFilter}>
+        <option value="0">No Filter</option>
         <option value="1">Fruits</option>
         <option value="2">Vegetables</option>
         <option value="3">Utensils</option>
@@ -22,8 +19,6 @@ export default function PantryFilter({
         <option value="9">Spices</option>
         <option value="10">Sauces</option>
       </select>
-      <button onClick={() => fireItemFilter(currentlyFiltered)}>Filter</button>
-      <button onClick={fireItemFilterClear}>Unfilter</button>
     </div>
   );
 }
