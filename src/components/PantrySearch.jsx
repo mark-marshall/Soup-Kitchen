@@ -1,4 +1,5 @@
 import React from 'react';
+import PT from 'prop-types';
 
 export default function PantrySearch({
   currentlySearched,
@@ -14,4 +15,9 @@ export default function PantrySearch({
       />
     </div>
   );
+}
+
+PantrySearch.propTypes = {
+  currentlySearched: PT.string.isRequired,
+  fireSearchItems: PT.func.isRequired,
 }

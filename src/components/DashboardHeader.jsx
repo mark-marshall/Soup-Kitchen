@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import PT from 'prop-types';
 
 export default function DashboardHeader({ user, fireLogout }) {
   return (
@@ -12,4 +13,15 @@ export default function DashboardHeader({ user, fireLogout }) {
       <button onClick={fireLogout}>Log out</button>
     </div>
   );
+}
+
+DashboardHeader.propTypes = {
+  user: PT.shape({
+    id: PT.number,
+    firstname: PT.string,
+    lastname: PT.string,
+    email: PT.string,
+    role: PT.string,
+  }),
+  fireLogout: PT.func.isRequired,
 }

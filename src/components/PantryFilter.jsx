@@ -1,4 +1,5 @@
 import React from 'react';
+import PT from 'prop-types';
 
 export default function PantryFilter({
   fireItemFilter,
@@ -21,4 +22,8 @@ export default function PantryFilter({
       </select>
     </div>
   );
+}
+
+PantryFilter.propTypes = {
+  fireItemFilter: PT.func.isRequired,
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PT from 'prop-types';
 
 import VolunteerHeader from './VolunteerHeader';
 import soupKitchens from '../data/soupKitchens';
@@ -39,10 +40,16 @@ class VolunteerOpps extends Component {
   }
 }
 
+VolunteerOpps.propTypes = {
+  loading: PT.bool.isRequired,
+  error: PT.string,
+  logout: PT.func.isRequired,
+}
+
 function mapStateToProps(state) {
   return {
     loading: state.loading,
-    errr: state.error,
+    error: state.error,
   };
 }
 

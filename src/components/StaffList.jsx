@@ -1,4 +1,5 @@
 import React from 'react';
+import PT from 'prop-types';
 
 export default function StaffList({ staffList }) {
   return (
@@ -14,4 +15,14 @@ export default function StaffList({ staffList }) {
       ))}
     </div>
   );
+}
+
+StaffList.propTypes = {
+  staffList: PT.arrayOf(PT.shape({
+    id: PT.number,
+    firstname: PT.string,
+    lastname: PT.string,
+    email: PT.string,
+    role: PT.string,
+  })),
 }

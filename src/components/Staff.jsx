@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, NavLink } from 'react-router-dom';
+import PT from 'prop-types';
 
 import VolunteerList from './VolunteerList';
 import StaffList from './StaffList';
@@ -40,4 +41,14 @@ export default function Staff({ users }) {
       />
     </div>
   );
+}
+
+Staff.propTypes = {
+  users: PT.arrayOf(PT.shape({
+    id: PT.number,
+    firstname: PT.string,
+    lastname: PT.string,
+    email: PT.string,
+    role: PT.string,
+  })),
 }

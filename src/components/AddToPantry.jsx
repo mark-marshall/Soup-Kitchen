@@ -1,4 +1,5 @@
 import React from 'react';
+import PT from 'prop-types';
 
 export default function AddToPantry({ itemsValuesSet, addItem, fireAddItem }) {
   return (
@@ -34,4 +35,15 @@ export default function AddToPantry({ itemsValuesSet, addItem, fireAddItem }) {
       <button onClick={() => fireAddItem(addItem)}>Add Item</button>
     </div>
   );
+}
+
+AddToPantry.propTypes = {
+  itemsValuesSet: PT.func.isRequired, 
+  addItem: PT.shape({
+    name: PT.any,
+    amount: PT.any,
+    unit: PT.any,
+    categoryID: PT.any,
+  }),
+  fireAddItem: PT.func.isRequired,
 }

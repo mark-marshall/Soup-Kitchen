@@ -1,4 +1,5 @@
 import React from 'react';
+import PT from 'prop-types';
 
 import * as consts from '../consts/categoryConsts';
 
@@ -89,4 +90,26 @@ export default function PantryList({
       })}
     </ul>
   );
+}
+
+PantryList.propTypes = {
+  items: PT.arrayOf(PT.shape({
+    id: PT.number,
+    name: PT.string,
+    amount: PT.number,
+    unit: PT.string,
+    imageURL: PT.string,
+  })),
+  fireDeleteItem: PT.func.isRequired,
+  currentlySelectedSet: PT.func.isRequired,
+  editItem: PT.shape({
+    id: PT.any,
+    name: PT.any,
+    amount: PT.any,
+    unit: PT.any,
+    categoryID: PT.any,
+  }),
+  editValuesSet: PT.func.isRequired,
+  resetEditValues: PT.func.isRequired,
+  fireUpdateItem: PT.func.isRequired,
 }

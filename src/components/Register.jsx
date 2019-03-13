@@ -1,4 +1,5 @@
 import React from 'react';
+import PT from 'prop-types';
 
 export default function Register({
   registerUser,
@@ -44,9 +45,7 @@ export default function Register({
       <div>
         Role:{' '}
         <select name="role" onChange={registerValuesSet}>
-          <option disable="true">
-            Choose a role
-          </option>
+          <option disable="true">Choose a role</option>
           <option value="admin">Admin</option>
           <option value="staff">Staff</option>
           <option value="volunteer">Volunteer</option>
@@ -56,3 +55,15 @@ export default function Register({
     </div>
   );
 }
+
+Register.propTypes = {
+  registerUser: PT.shape({
+    firstname: PT.string.isRequired,
+    lastname: PT.string.isRequired,
+    email: PT.string.isRequired,
+    password: PT.string.isRequired,
+    role: PT.string.isRequired,
+  }).isRequired,
+  registerValuesSet: PT.func.isRequired,
+  fireRegistration: PT.func.isRequired,
+};

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, NavLink, withRouter } from 'react-router-dom';
+import PT from 'prop-types';
 
 import DashboardHeader from './DashboardHeader';
 import Pantry from './Pantry';
@@ -234,12 +235,45 @@ class Dashboard extends Component {
   }
 }
 
+Dashboard.propTypes = {
+  items: PT.arrayOf(PT.shape({
+    id: PT.number,
+    name: PT.string,
+    amount: PT.number,
+    unit: PT.string,
+    imageURL: PT.string,
+  })),
+  users: PT.arrayOf(PT.shape({
+    id: PT.number,
+    firstname: PT.string,
+    lastname: PT.string,
+    email: PT.string,
+    role: PT.string,
+  })),
+  user: PT.shape({
+    id: PT.number,
+    firstname: PT.string,
+    lastname: PT.string,
+    email: PT.string,
+    role: PT.string,
+  }),
+  error: PT.string,
+  getItemsAsync: PT.func.isRequired,
+  addItemAsync: PT.func.isRequired,
+  deleteItemAsync: PT.func.isRequired,
+  updateItemAsync: PT.func.isRequired,
+  filterItemsAsync: PT.func.isRequired,
+  searchItemsAsync: PT.func.isRequired,
+  clearSearchAsync: PT.func.isRequired,
+  getUsersAsync: PT.func.isRequired,
+  logout: PT.func.isRequired,
+}
+
 function mapStateToProps(state) {
   return {
     items: state.items,
     users: state.users,
     user: state.user,
-    loading: state.loading,
     error: state.error,
   };
 }

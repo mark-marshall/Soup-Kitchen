@@ -1,4 +1,5 @@
 import React from 'react';
+import PT from 'prop-types';
 
 export default function SoupKitchenList({ kitchens }) {
   return (
@@ -13,4 +14,13 @@ export default function SoupKitchenList({ kitchens }) {
       ))}
     </div>
   );
+}
+
+SoupKitchenList.propTypes = {
+  kitchens: PT.arrayOf(PT.shape({
+    state: PT.string.isRequired,
+    location: PT.string.isRequired,
+    kitchen: PT.string.isRequired,
+    link: PT.string.isRequired,
+  })).isRequired,
 }

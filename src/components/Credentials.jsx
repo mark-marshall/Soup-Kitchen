@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, NavLink, withRouter } from 'react-router-dom';
+import PT from 'prop-types';
 
 import Register from './Register';
 import Login from './Login';
@@ -134,6 +135,13 @@ class Credentials extends Component {
       );
     }
   }
+}
+
+Credentials.propTypes = {
+  loading: PT.bool.isRequired,
+  error: PT.string,
+  getTokenOnRegistrationAsync: PT.func.isRequired,
+  getTokenOnLoginAsync: PT.func.isRequired,
 }
 
 function mapStateToProps(state) {
