@@ -42,22 +42,21 @@ export const getTokenOnLoginAsync = user => dispatch => {
       localStorage.setItem('id', res.data.id);
       localStorage.setItem('role', JSON.parse(res.config.data).role);
       dispatch(tokenFetched());
-        if (user.role !== 'volunteer') {
-          dispatch(fetchingUser());
-          axios()
-            .get(`${urls.userListURL}/${res.data.id}`)
-            .then(res => {
-              dispatch(pushUser(res.data.users));
-              dispatch(userFetched());
-            })
-            .catch(err => {
-              dispatch(errorFetchingUser(err.message));
-            });
-        }
-        if (user.role === 'volunteer') {
-          dispatch(setVolunteerLogin());
-        }
-      
+      if (user.role !== 'volunteer') {
+        dispatch(fetchingUser());
+        axios()
+          .get(`${urls.userListURL}/${res.data.id}`)
+          .then(res => {
+            dispatch(pushUser(res.data.users));
+            dispatch(userFetched());
+          })
+          .catch(err => {
+            dispatch(errorFetchingUser(err.message));
+          });
+      }
+      if (user.role === 'volunteer') {
+        dispatch(setVolunteerLogin());
+      }
     })
     .catch(err => {
       dispatch(errorFetchingToken(err.message));
@@ -69,8 +68,13 @@ export const getItemsAsync = () => dispatch => {
   axios()
     .get(urls.getItemsURL)
     .then(res => {
-      dispatch(pushItems(res.data.items));
-      dispatch(itemsFetched());
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      } else {
+        dispatch(pushItems(res.data.items));
+        dispatch(itemsFetched());
+      }
     })
     .catch(err => {
       dispatch(errorFetchingItems(err.message));
@@ -81,14 +85,24 @@ export const addItemAsync = item => dispatch => {
   dispatch(addingItem());
   axios()
     .post(urls.getItemsURL, item)
-    .then(() => {
-      dispatch(itemAdded());
+    .then(res => {
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      } else {
+        dispatch(itemAdded());
+      }
     })
     .then(
       axios()
         .get(urls.getItemsURL)
         .then(res => {
-          dispatch(pushItems(res.data.items));
+          if (res.data.message === 'jwt expired') {
+            dispatch(logout);
+            localStorage.clear();
+          } else {
+            dispatch(pushItems(res.data.items));
+          }
         })
         .catch(err => {
           dispatch(errorFetchingItems(err.message));
@@ -103,8 +117,13 @@ export const deleteItemAsync = id => dispatch => {
   dispatch(deletingItem());
   axios()
     .delete(`${urls.getItemsURL}/${id}`)
-    .then(() => {
-      dispatch(itemDeleted);
+    .then(res => {
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      } else {
+        dispatch(itemDeleted);
+      }
     })
     .catch(err => {
       dispatch(errorDeletingItem(err.message));
@@ -113,7 +132,12 @@ export const deleteItemAsync = id => dispatch => {
     axios()
       .get(urls.getItemsURL)
       .then(res => {
-        dispatch(pushItems(res.data.items));
+        if (res.data.message === 'jwt expired') {
+          dispatch(logout);
+          localStorage.clear();
+        } else {
+          dispatch(pushItems(res.data.items));
+        }
       })
       .catch(err => {
         dispatch(errorFetchingItems(err.message));
@@ -125,8 +149,13 @@ export const updateItemAsync = item => dispatch => {
   dispatch(updatingItem());
   axios()
     .put(`${urls.getItemsURL}/${item.id}`, item)
-    .then(() => {
-      dispatch(itemUpdated);
+    .then(res => {
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      } else {
+        dispatch(itemUpdated);
+      }
     })
     .catch(err => {
       dispatch(errorUpdatingItem(err.message));
@@ -135,7 +164,12 @@ export const updateItemAsync = item => dispatch => {
     axios()
       .get(urls.getItemsURL)
       .then(res => {
-        dispatch(pushItems(res.data.items));
+        if (res.data.message === 'jwt expired') {
+          dispatch(logout);
+          localStorage.clear();
+        } else {
+          dispatch(pushItems(res.data.items));
+        }
       })
       .catch(err => {
         dispatch(errorFetchingItems(err.message));
@@ -148,9 +182,14 @@ export const filterItemsAsync = categoryID => dispatch => {
   axios()
     .get(urls.getItemsURL)
     .then(res => {
-      dispatch(pushItems(res.data.items));
-      dispatch(filterItems(categoryID));
-      dispatch(itemsFetched());
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      } else {
+        dispatch(pushItems(res.data.items));
+        dispatch(filterItems(categoryID));
+        dispatch(itemsFetched());
+      }
     })
     .catch(err => {
       dispatch(errorFetchingItems(err.message));
@@ -162,8 +201,13 @@ export const unfilterItemsAsync = () => dispatch => {
   axios()
     .get(urls.getItemsURL)
     .then(res => {
-      dispatch(pushItems(res.data.items));
-      dispatch(itemsFetched());
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      } else {
+        dispatch(pushItems(res.data.items));
+        dispatch(itemsFetched());
+      }
     })
     .catch(err => {
       dispatch(errorFetchingItems(err.message));
@@ -175,9 +219,14 @@ export const searchItemsAsync = keyword => dispatch => {
   axios()
     .get(urls.getItemsURL)
     .then(res => {
-      dispatch(pushItems(res.data.items));
-      dispatch(searchItems(keyword));
-      dispatch(itemsFetched());
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      } else {
+        dispatch(pushItems(res.data.items));
+        dispatch(searchItems(keyword));
+        dispatch(itemsFetched());
+      }
     })
     .catch(err => {
       dispatch(errorFetchingItems(err.message));
@@ -189,8 +238,13 @@ export const clearSearchAsync = () => dispatch => {
   axios()
     .get(urls.getItemsURL)
     .then(res => {
-      dispatch(pushItems(res.data.items));
-      dispatch(itemsFetched());
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      } else {
+        dispatch(pushItems(res.data.items));
+        dispatch(itemsFetched());
+      }
     })
     .catch(err => {
       dispatch(errorFetchingItems(err.message));
@@ -202,8 +256,13 @@ export const getUsersAsync = () => dispatch => {
   axios()
     .get(urls.userListURL)
     .then(res => {
-      dispatch(pushUsers(res.data.users));
-      dispatch(usersFetched());
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      } else {
+        dispatch(pushUsers(res.data.users));
+        dispatch(usersFetched());
+      }
     })
     .catch(err => {
       dispatch(errorFetchingUsers(err.message));
@@ -215,8 +274,13 @@ export const getUserAsync = id => dispatch => {
   axios()
     .get(`${urls.userListURL}/${id}`)
     .then(res => {
-      dispatch(pushUser(res.data.users));
-      dispatch(userFetched());
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      } else {
+        dispatch(pushUser(res.data.users));
+        dispatch(userFetched());
+      }
     })
     .catch(err => {
       dispatch(errorFetchingUser(err.message));
@@ -400,5 +464,5 @@ export function setVolunteerLogin() {
 export function logout() {
   return {
     type: types.LOGOUT,
-  }
+  };
 }

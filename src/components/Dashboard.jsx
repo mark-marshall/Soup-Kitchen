@@ -176,7 +176,7 @@ class Dashboard extends Component {
 
   render() {
     if (this.props.error) {
-      return <div>{this.props.error}</div>;
+      return <div>We're in a soup here: {this.props.error}</div>;
     } else if (this.props.loading) {
       return <div>Loading...</div>;
     } else {
