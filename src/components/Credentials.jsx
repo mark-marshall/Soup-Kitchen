@@ -52,9 +52,25 @@ class Credentials extends Component {
     });
   };
 
+  registerValidation = user => {
+    if (
+      !user.firstname ||
+      !user.lastname ||
+      !user.email ||
+      !user.password ||
+      !user.role
+    ) {
+      return alert('Please fill in all fields 🌾');
+    } else if (!user.email.includes('@') || !user.email.includes('.')) {
+      return alert('Please enter a valid email ✅');
+    } else return true;
+  };
+
   fireRegistration = user => {
-    this.props.getTokenOnRegistrationAsync(user);
-    this.resetValues();
+    if (this.registerValidation(user)) {
+      this.props.getTokenOnRegistrationAsync(user);
+      this.resetValues();
+    }
   };
 
   loginValuesSet = event => {
@@ -66,9 +82,17 @@ class Credentials extends Component {
     });
   };
 
+  loginValidation = user => {
+    if (!user.email || !user.password || !user.role) {
+      return alert('Please fill in all fields 🌾');
+    } else return true;
+  };
+
   fireLogin = user => {
-    this.props.getTokenOnLoginAsync(user);
-    this.resetValues();
+    if (this.loginValidation(user)) {
+      this.props.getTokenOnLoginAsync(user);
+      this.resetValues();
+    }
   };
 
   render() {

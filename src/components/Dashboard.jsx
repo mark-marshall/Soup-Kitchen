@@ -50,7 +50,7 @@ class Dashboard extends Component {
         name: '',
         amount: '',
         unit: '',
-        category: '',
+        categoryID: '',
       },
     });
   };
@@ -64,6 +64,12 @@ class Dashboard extends Component {
     });
   };
 
+  addItemValidation = item => {
+    if (!item.name || !item.amount || !item.categoryID) {
+      return alert('Please fill in all fields 🌾');
+    } else return true;
+  };
+
   fireAddItem = item => {
     const itemParse = {
       name: item.name,
@@ -71,8 +77,10 @@ class Dashboard extends Component {
       unit: item.unit,
       categoryID: parseInt(item.categoryID),
     };
-    this.props.addItemAsync(itemParse);
-    this.resetValues();
+    if (this.addItemValidation(item)) {
+      this.props.addItemAsync(itemParse);
+      this.resetValues();
+    }
   };
 
   fireDeleteItem = id => {
@@ -112,6 +120,12 @@ class Dashboard extends Component {
     });
   };
 
+  updateItemValidation = item => {
+    if (!item.name || !item.amount || !item.categoryID) {
+      return alert('Please fill in all fields 🌾');
+    } else return true;
+  };
+
   fireUpdateItem = item => {
     const itemParse = {
       id: parseInt(item.id),
@@ -120,8 +134,10 @@ class Dashboard extends Component {
       unit: item.unit,
       categoryID: parseInt(item.categoryID),
     };
-    this.props.updateItemAsync(itemParse);
-    this.resetEditValues();
+    if (this.updateItemValidation(item)) {
+      this.props.updateItemAsync(itemParse);
+      this.resetEditValues();
+    }
   };
 
   currentlyFilteredReset = () => {

@@ -82,47 +82,41 @@ export const getItemsAsync = () => dispatch => {
 };
 
 export const addItemAsync = item => dispatch => {
-  dispatch(addingItem());
   axios()
     .post(urls.getItemsURL, item)
     .then(res => {
       if (res.data.message === 'jwt expired') {
         dispatch(logout);
         localStorage.clear();
-      } else {
-        dispatch(itemAdded());
       }
     })
-    .then(
-      axios()
-        .get(urls.getItemsURL)
-        .then(res => {
-          if (res.data.message === 'jwt expired') {
-            dispatch(logout);
-            localStorage.clear();
-          } else {
-            dispatch(pushItems(res.data.items));
-          }
-        })
-        .catch(err => {
-          dispatch(errorFetchingItems(err.message));
-        }),
-    )
     .catch(err => {
       dispatch(errorAddingItem(err.message));
     });
+  setTimeout(function() {
+    axios()
+      .get(urls.getItemsURL)
+      .then(res => {
+        if (res.data.message === 'jwt expired') {
+          dispatch(logout);
+          localStorage.clear();
+        } else {
+          dispatch(pushItems(res.data.items));
+        }
+      })
+      .catch(err => {
+        dispatch(errorFetchingItems(err.message));
+      });
+  }, 200);
 };
 
 export const deleteItemAsync = id => dispatch => {
-  dispatch(deletingItem());
   axios()
     .delete(`${urls.getItemsURL}/${id}`)
     .then(res => {
       if (res.data.message === 'jwt expired') {
         dispatch(logout);
         localStorage.clear();
-      } else {
-        dispatch(itemDeleted);
       }
     })
     .catch(err => {
@@ -146,15 +140,12 @@ export const deleteItemAsync = id => dispatch => {
 };
 
 export const updateItemAsync = item => dispatch => {
-  dispatch(updatingItem());
   axios()
     .put(`${urls.getItemsURL}/${item.id}`, item)
     .then(res => {
       if (res.data.message === 'jwt expired') {
         dispatch(logout);
         localStorage.clear();
-      } else {
-        dispatch(itemUpdated);
       }
     })
     .catch(err => {
@@ -332,18 +323,6 @@ export function errorFetchingItems(error) {
   };
 }
 
-export function addingItem() {
-  return {
-    type: types.ADDING_ITEM,
-  };
-}
-
-export function itemAdded() {
-  return {
-    type: types.ITEM_ADDED,
-  };
-}
-
 export function errorAddingItem(error) {
   return {
     type: types.ERROR_ADDING_ITEM,
@@ -351,34 +330,10 @@ export function errorAddingItem(error) {
   };
 }
 
-export function deletingItem() {
-  return {
-    type: types.DELETING_ITEM,
-  };
-}
-
-export function itemDeleted() {
-  return {
-    type: types.ITEM_DELETED,
-  };
-}
-
 export function errorDeletingItem(error) {
   return {
     type: types.ERROR_DELETING_ITEM,
     payload: error,
-  };
-}
-
-export function updatingItem() {
-  return {
-    type: types.UPDATING_ITEM,
-  };
-}
-
-export function itemUpdated() {
-  return {
-    type: types.ITEM_UPDATED,
   };
 }
 

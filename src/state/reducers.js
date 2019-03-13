@@ -31,18 +31,6 @@ export function loading(loading = false, action) {
       return true;
     case types.ITEMS_FETCHED:
       return false;
-    case types.ADDING_ITEM:
-      return true;
-    case types.ITEM_ADDED:
-      return false;
-    case types.DELETING_ITEM:
-      return true;
-    case types.ITEM_DELETED:
-      return false;
-    case types.UPDATING_ITEM:
-      return true;
-    case types.ITEM_UPDATED:
-      return false;
     case types.FETCHING_USERS:
       return true;
     case types.USERS_FETCHED:
