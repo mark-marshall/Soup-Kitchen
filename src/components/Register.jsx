@@ -36,6 +36,7 @@ export default function Register({
         Password:{' '}
         <input
           name="password"
+          type="password"
           value={registerUser.password}
           onChange={registerValuesSet}
         />

@@ -12,6 +12,7 @@ export default function Login({ loginUser, loginValuesSet, fireLogin }) {
         Password:{' '}
         <input
           name="password"
+          type="password"
           value={loginUser.password}
           onChange={loginValuesSet}
         />
