@@ -1,17 +1,12 @@
 import * as types from '../consts/actionTypeConsts';
 import axios from '../axios/axios';
 
-const staffRegisterURL =
-  'https://soup-kitchen-backend.herokuapp.com/api/staff/register';
-const staffLoginURL =
-  'https://soup-kitchen-backend.herokuapp.com/api/staff/login';
-const getItemsURL = 'https://soup-kitchen-backend.herokuapp.com/api/items';
-const userListURL = 'https://soup-kitchen-backend.herokuapp.com/api/staff';
+import * as urls from '../consts/apiConsts';
 
 export const getTokenOnRegistrationAsync = user => dispatch => {
   dispatch(fetchingToken());
   axios()
-    .post(staffRegisterURL, user)
+    .post(urls.staffRegisterURL, user)
     .then(res => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('id', res.data.id);
@@ -20,7 +15,7 @@ export const getTokenOnRegistrationAsync = user => dispatch => {
       if (JSON.parse(res.config.data).role !== 'volunteer') {
         dispatch(fetchingUser());
         axios()
-          .get(`${userListURL}/${res.data.id}`)
+          .get(`${urls.userListURL}/${res.data.id}`)
           .then(res => {
             dispatch(pushUser(res.data.users));
             dispatch(userFetched());
@@ -41,7 +36,7 @@ export const getTokenOnRegistrationAsync = user => dispatch => {
 export const getTokenOnLoginAsync = user => dispatch => {
   dispatch(fetchingToken());
   axios()
-    .post(staffLoginURL, user)
+    .post(urls.staffLoginURL, user)
     .then(res => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('id', res.data.id);
@@ -50,7 +45,7 @@ export const getTokenOnLoginAsync = user => dispatch => {
         if (user.role !== 'volunteer') {
           dispatch(fetchingUser());
           axios()
-            .get(`${userListURL}/${res.data.id}`)
+            .get(`${urls.userListURL}/${res.data.id}`)
             .then(res => {
               dispatch(pushUser(res.data.users));
               dispatch(userFetched());
@@ -72,7 +67,7 @@ export const getTokenOnLoginAsync = user => dispatch => {
 export const getItemsAsync = () => dispatch => {
   dispatch(fetchingItems());
   axios()
-    .get(getItemsURL)
+    .get(urls.getItemsURL)
     .then(res => {
       dispatch(pushItems(res.data.items));
       dispatch(itemsFetched());
@@ -85,13 +80,13 @@ export const getItemsAsync = () => dispatch => {
 export const addItemAsync = item => dispatch => {
   dispatch(addingItem());
   axios()
-    .post(getItemsURL, item)
+    .post(urls.getItemsURL, item)
     .then(() => {
       dispatch(itemAdded());
     })
     .then(
       axios()
-        .get(getItemsURL)
+        .get(urls.getItemsURL)
         .then(res => {
           dispatch(pushItems(res.data.items));
         })
@@ -107,7 +102,7 @@ export const addItemAsync = item => dispatch => {
 export const deleteItemAsync = id => dispatch => {
   dispatch(deletingItem());
   axios()
-    .delete(`${getItemsURL}/${id}`)
+    .delete(`${urls.getItemsURL}/${id}`)
     .then(() => {
       dispatch(itemDeleted);
     })
@@ -116,7 +111,7 @@ export const deleteItemAsync = id => dispatch => {
     });
   setTimeout(function() {
     axios()
-      .get(getItemsURL)
+      .get(urls.getItemsURL)
       .then(res => {
         dispatch(pushItems(res.data.items));
       })
@@ -129,7 +124,7 @@ export const deleteItemAsync = id => dispatch => {
 export const updateItemAsync = item => dispatch => {
   dispatch(updatingItem());
   axios()
-    .put(`${getItemsURL}/${item.id}`, item)
+    .put(`${urls.getItemsURL}/${item.id}`, item)
     .then(() => {
       dispatch(itemUpdated);
     })
@@ -138,7 +133,7 @@ export const updateItemAsync = item => dispatch => {
     });
   setTimeout(function() {
     axios()
-      .get(getItemsURL)
+      .get(urls.getItemsURL)
       .then(res => {
         dispatch(pushItems(res.data.items));
       })
@@ -151,7 +146,7 @@ export const updateItemAsync = item => dispatch => {
 export const filterItemsAsync = categoryID => dispatch => {
   dispatch(fetchingItems());
   axios()
-    .get(getItemsURL)
+    .get(urls.getItemsURL)
     .then(res => {
       dispatch(pushItems(res.data.items));
       dispatch(filterItems(categoryID));
@@ -165,7 +160,7 @@ export const filterItemsAsync = categoryID => dispatch => {
 export const unfilterItemsAsync = () => dispatch => {
   dispatch(fetchingItems());
   axios()
-    .get(getItemsURL)
+    .get(urls.getItemsURL)
     .then(res => {
       dispatch(pushItems(res.data.items));
       dispatch(itemsFetched());
@@ -178,7 +173,7 @@ export const unfilterItemsAsync = () => dispatch => {
 export const searchItemsAsync = keyword => dispatch => {
   dispatch(fetchingItems());
   axios()
-    .get(getItemsURL)
+    .get(urls.getItemsURL)
     .then(res => {
       dispatch(pushItems(res.data.items));
       dispatch(searchItems(keyword));
@@ -192,7 +187,7 @@ export const searchItemsAsync = keyword => dispatch => {
 export const clearSearchAsync = () => dispatch => {
   dispatch(fetchingItems());
   axios()
-    .get(getItemsURL)
+    .get(urls.getItemsURL)
     .then(res => {
       dispatch(pushItems(res.data.items));
       dispatch(itemsFetched());
@@ -205,7 +200,7 @@ export const clearSearchAsync = () => dispatch => {
 export const getUsersAsync = () => dispatch => {
   dispatch(fetchingUsers());
   axios()
-    .get(userListURL)
+    .get(urls.userListURL)
     .then(res => {
       dispatch(pushUsers(res.data.users));
       dispatch(usersFetched());
@@ -218,7 +213,7 @@ export const getUsersAsync = () => dispatch => {
 export const getUserAsync = id => dispatch => {
   dispatch(fetchingUser());
   axios()
-    .get(`${userListURL}/${id}`)
+    .get(`${urls.userListURL}/${id}`)
     .then(res => {
       dispatch(pushUser(res.data.users));
       dispatch(userFetched());
