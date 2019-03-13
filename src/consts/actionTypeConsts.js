@@ -33,3 +33,5 @@ export const PUSH_USER = "PUSH_USER";
 export const ERROR_FETCHING_USER = "ERROR_FETCHING_USER";
 
 export const SET_VOLUNTEER_LOGIN = "SET_VOLUNTEER_LOGIN";
+
+export const LOGOUT = "LOGOUT";

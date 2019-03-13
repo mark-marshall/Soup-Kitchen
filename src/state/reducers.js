@@ -82,6 +82,8 @@ export function user(user = {}, action) {
   switch (action.type) {
     case types.PUSH_USER:
       return action.payload;
+    case types.LOGOUT:
+      return {};
     default:
       return user;
   }
@@ -91,6 +93,8 @@ export function isVolunteer(isVolunteer = false, action) {
   switch (action.type) {
     case types.SET_VOLUNTEER_LOGIN:
       return true;
+    case types.LOGOUT:
+      return false;
     default:
       return isVolunteer;
   }

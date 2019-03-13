@@ -16,6 +16,7 @@ import {
   searchItemsAsync,
   clearSearchAsync,
   getUsersAsync,
+  logout,
 } from '../state/actionCreators';
 
 class Dashboard extends Component {
@@ -168,13 +169,22 @@ class Dashboard extends Component {
     this.currentlySearchedReset();
   };
 
+  fireLogout = () => {
+    this.props.logout();
+    localStorage.clear();
+  }
+
   render() {
     return (
       <div>
         <Route
           path="/dashboard/"
           render={routeProps => (
-            <DashboardHeader {...routeProps} user={this.props.user} />
+            <DashboardHeader
+              {...routeProps}
+              user={this.props.user}
+              fireLogout={this.fireLogout}
+            />
           )}
         />
         <nav>
@@ -239,6 +249,7 @@ function mapDispatchToProps(dispatch) {
       searchItemsAsync,
       clearSearchAsync,
       getUsersAsync,
+      logout,
     },
     dispatch,
   );

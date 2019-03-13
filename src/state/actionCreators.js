@@ -47,7 +47,6 @@ export const getTokenOnLoginAsync = user => dispatch => {
       localStorage.setItem('id', res.data.id);
       localStorage.setItem('role', JSON.parse(res.config.data).role);
       dispatch(tokenFetched());
-      console.log(res);
         if (user.role !== 'volunteer') {
           dispatch(fetchingUser());
           axios()
@@ -401,4 +400,10 @@ export function setVolunteerLogin() {
   return {
     type: types.SET_VOLUNTEER_LOGIN,
   };
+}
+
+export function logout() {
+  return {
+    type: types.LOGOUT,
+  }
 }
