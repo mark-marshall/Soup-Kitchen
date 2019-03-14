@@ -1,9 +1,18 @@
 import React from 'react';
 import PT from 'prop-types';
+import styled from 'styled-components';
+import { lighten } from 'polished';
 
 import PantryHeader from './PantryHeader';
 import PantryList from './PantryList';
 import AddToPantry from './AddToPantry';
+import soupStyles from '../styles/styles';
+
+const PantryWrapper = styled.div`
+background-color: ${lighten(0.65, soupStyles.color.success)};
+border-radius: ${soupStyles.border.radiusSmall};
+padding: ${soupStyles.padding.default};
+`;
 
 export default function Pantry({
   items,
@@ -21,12 +30,16 @@ export default function Pantry({
   fireSearchItems,
 }) {
   return (
-    <div>
-      <h3>Pantry</h3>
+    <PantryWrapper>
       <PantryHeader
         fireItemFilter={fireItemFilter}
         currentlySearched={currentlySearched}
         fireSearchItems={fireSearchItems}
+      />
+      <AddToPantry
+        itemsValuesSet={itemsValuesSet}
+        addItem={addItem}
+        fireAddItem={fireAddItem}
       />
       <PantryList
         items={items}
@@ -37,23 +50,20 @@ export default function Pantry({
         resetEditValues={resetEditValues}
         fireUpdateItem={fireUpdateItem}
       />
-      <AddToPantry
-        itemsValuesSet={itemsValuesSet}
-        addItem={addItem}
-        fireAddItem={fireAddItem}
-      />
-    </div>
+    </PantryWrapper>
   );
 }
 
 Pantry.propTypes = {
-  items: PT.arrayOf(PT.shape({
-    id: PT.number,
-    name: PT.string,
-    amount: PT.number,
-    unit: PT.string,
-    imageURL: PT.string,
-  })),
+  items: PT.arrayOf(
+    PT.shape({
+      id: PT.number,
+      name: PT.string,
+      amount: PT.number,
+      unit: PT.string,
+      imageURL: PT.string,
+    }),
+  ),
   itemsValuesSet: PT.func.isRequired,
   addItem: PT.shape({
     name: PT.any,
@@ -77,4 +87,4 @@ Pantry.propTypes = {
   fireItemFilter: PT.func.isRequired,
   currentlySearched: PT.string.isRequired,
   fireSearchItems: PT.func.isRequired,
-}
+};

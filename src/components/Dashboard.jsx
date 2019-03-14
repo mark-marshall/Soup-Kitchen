@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { Route, NavLink, withRouter } from 'react-router-dom';
 import PT from 'prop-types';
 import styled from 'styled-components';
-import { lighten } from 'polished';
 
 import DashboardHeader from './DashboardHeader';
 import Pantry from './Pantry';
