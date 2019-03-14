@@ -79,6 +79,7 @@ export default function AddToPantry({ itemsValuesSet, addItem, fireAddItem }) {
           <input
             name="amount"
             placeholder="Amount"
+            type="number"
             value={addItem.amount}
             onChange={itemsValuesSet}
           />
@@ -87,7 +88,6 @@ export default function AddToPantry({ itemsValuesSet, addItem, fireAddItem }) {
           <input
             name="unit"
             placeholder="Unit (optional)"
-            type="number"
             value={addItem.unit}
             onChange={itemsValuesSet}
           />
