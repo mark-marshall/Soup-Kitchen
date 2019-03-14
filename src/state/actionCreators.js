@@ -1,22 +1,32 @@
 import * as types from '../consts/actionTypeConsts';
 import axios from '../axios/axios';
 
-const staffRegisterURL =
-  'https://soup-kitchen-backend.herokuapp.com/api/staff/register';
-const staffLoginURL =
-  'https://soup-kitchen-backend.herokuapp.com/api/staff/login';
-const getItemsURL = 'https://soup-kitchen-backend.herokuapp.com/api/items';
-const userListURL = 'https://soup-kitchen-backend.herokuapp.com/api/staff';
+import * as urls from '../consts/apiConsts';
 
 export const getTokenOnRegistrationAsync = user => dispatch => {
   dispatch(fetchingToken());
   axios()
-    .post(staffRegisterURL, user)
+    .post(urls.staffRegisterURL, user)
     .then(res => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('id', res.data.id);
       localStorage.setItem('role', JSON.parse(res.config.data).role);
       dispatch(tokenFetched());
+      if (JSON.parse(res.config.data).role !== 'volunteer') {
+        dispatch(fetchingUser());
+        axios()
+          .get(`${urls.userListURL}/${res.data.id}`)
+          .then(res => {
+            dispatch(pushUser(res.data.users));
+            dispatch(userFetched());
+          })
+          .catch(err => {
+            dispatch(errorFetchingUser(err.message));
+          });
+      }
+      if (JSON.parse(res.config.data).role === 'volunteer') {
+        dispatch(setVolunteerLogin());
+      }
     })
     .catch(err => {
       dispatch(errorFetchingToken(err.message));
@@ -26,12 +36,27 @@ export const getTokenOnRegistrationAsync = user => dispatch => {
 export const getTokenOnLoginAsync = user => dispatch => {
   dispatch(fetchingToken());
   axios()
-    .post(staffLoginURL, user)
+    .post(urls.staffLoginURL, user)
     .then(res => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('id', res.data.id);
       localStorage.setItem('role', JSON.parse(res.config.data).role);
       dispatch(tokenFetched());
+      if (user.role !== 'volunteer') {
+        dispatch(fetchingUser());
+        axios()
+          .get(`${urls.userListURL}/${res.data.id}`)
+          .then(res => {
+            dispatch(pushUser(res.data.users));
+            dispatch(userFetched());
+          })
+          .catch(err => {
+            dispatch(errorFetchingUser(err.message));
+          });
+      }
+      if (user.role === 'volunteer') {
+        dispatch(setVolunteerLogin());
+      }
     })
     .catch(err => {
       dispatch(errorFetchingToken(err.message));
@@ -41,10 +66,15 @@ export const getTokenOnLoginAsync = user => dispatch => {
 export const getItemsAsync = () => dispatch => {
   dispatch(fetchingItems());
   axios()
-    .get(getItemsURL)
+    .get(urls.getItemsURL)
     .then(res => {
-      dispatch(pushItems(res.data.items));
-      dispatch(itemsFetched());
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      } else {
+        dispatch(pushItems(res.data.items));
+        dispatch(itemsFetched());
+      }
     })
     .catch(err => {
       dispatch(errorFetchingItems(err.message));
@@ -52,44 +82,56 @@ export const getItemsAsync = () => dispatch => {
 };
 
 export const addItemAsync = item => dispatch => {
-  dispatch(addingItem());
   axios()
-    .post(getItemsURL, item)
-    .then(() => {
-      dispatch(itemAdded());
+    .post(urls.getItemsURL, item)
+    .then(res => {
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      }
     })
-    .then(
-      axios()
-        .get(getItemsURL)
-        .then(res => {
-          dispatch(pushItems(res.data.items));
-          dispatch(itemsFetched());
-        })
-        .catch(err => {
-          dispatch(errorFetchingItems(err.message));
-        }),
-    )
     .catch(err => {
       dispatch(errorAddingItem(err.message));
     });
+  setTimeout(function() {
+    axios()
+      .get(urls.getItemsURL)
+      .then(res => {
+        if (res.data.message === 'jwt expired') {
+          dispatch(logout);
+          localStorage.clear();
+        } else {
+          dispatch(pushItems(res.data.items));
+        }
+      })
+      .catch(err => {
+        dispatch(errorFetchingItems(err.message));
+      });
+  }, 200);
 };
 
 export const deleteItemAsync = id => dispatch => {
-  dispatch(deletingItem());
   axios()
-    .delete(`${getItemsURL}/${id}`)
-    .then(() => {
-      dispatch(itemDeleted);
+    .delete(`${urls.getItemsURL}/${id}`)
+    .then(res => {
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      }
     })
     .catch(err => {
       dispatch(errorDeletingItem(err.message));
     });
   setTimeout(function() {
     axios()
-      .get(getItemsURL)
+      .get(urls.getItemsURL)
       .then(res => {
-        dispatch(pushItems(res.data.items));
-        dispatch(itemsFetched());
+        if (res.data.message === 'jwt expired') {
+          dispatch(logout);
+          localStorage.clear();
+        } else {
+          dispatch(pushItems(res.data.items));
+        }
       })
       .catch(err => {
         dispatch(errorFetchingItems(err.message));
@@ -98,21 +140,27 @@ export const deleteItemAsync = id => dispatch => {
 };
 
 export const updateItemAsync = item => dispatch => {
-  dispatch(updatingItem());
   axios()
-    .put(`${getItemsURL}/${item.id}`, item)
-    .then(() => {
-      dispatch(itemUpdated);
+    .put(`${urls.getItemsURL}/${item.id}`, item)
+    .then(res => {
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      }
     })
     .catch(err => {
       dispatch(errorUpdatingItem(err.message));
     });
   setTimeout(function() {
     axios()
-      .get(getItemsURL)
+      .get(urls.getItemsURL)
       .then(res => {
-        dispatch(pushItems(res.data.items));
-        dispatch(itemsFetched());
+        if (res.data.message === 'jwt expired') {
+          dispatch(logout);
+          localStorage.clear();
+        } else {
+          dispatch(pushItems(res.data.items));
+        }
       })
       .catch(err => {
         dispatch(errorFetchingItems(err.message));
@@ -121,40 +169,55 @@ export const updateItemAsync = item => dispatch => {
 };
 
 export const filterItemsAsync = categoryID => dispatch => {
-  dispatch(fetchingItems());
-  axios()
-    .get(getItemsURL)
-    .then(res => {
-      dispatch(pushItems(res.data.items));
-      dispatch(filterItems(categoryID));
-      dispatch(itemsFetched());
-    })
-    .catch(err => {
-      dispatch(errorFetchingItems(err.message));
-    });
-};
-
-export const unfilterItemsAsync = () => dispatch => {
-  dispatch(fetchingItems());
-  axios()
-    .get(getItemsURL)
-    .then(res => {
-      dispatch(pushItems(res.data.items));
-      dispatch(itemsFetched());
-    })
-    .catch(err => {
-      dispatch(errorFetchingItems(err.message));
-    });
+  if (categoryID === 0) {
+    dispatch(fetchingItems());
+    axios()
+      .get(urls.getItemsURL)
+      .then(res => {
+        if (res.data.message === 'jwt expired') {
+          dispatch(logout);
+          localStorage.clear();
+        } else {
+          dispatch(pushItems(res.data.items));
+          dispatch(itemsFetched());
+        }
+      })
+      .catch(err => {
+        dispatch(errorFetchingItems(err.message));
+      });
+  } else {
+    dispatch(fetchingItems());
+    axios()
+      .get(urls.getItemsURL)
+      .then(res => {
+        if (res.data.message === 'jwt expired') {
+          dispatch(logout);
+          localStorage.clear();
+        } else {
+          dispatch(pushItems(res.data.items));
+          dispatch(filterItems(categoryID));
+          dispatch(itemsFetched());
+        }
+      })
+      .catch(err => {
+        dispatch(errorFetchingItems(err.message));
+      });
+  }
 };
 
 export const searchItemsAsync = keyword => dispatch => {
   dispatch(fetchingItems());
   axios()
-    .get(getItemsURL)
+    .get(urls.getItemsURL)
     .then(res => {
-      dispatch(pushItems(res.data.items));
-      dispatch(searchItems(keyword));
-      dispatch(itemsFetched());
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      } else {
+        dispatch(pushItems(res.data.items));
+        dispatch(searchItems(keyword));
+        dispatch(itemsFetched());
+      }
     })
     .catch(err => {
       dispatch(errorFetchingItems(err.message));
@@ -164,10 +227,15 @@ export const searchItemsAsync = keyword => dispatch => {
 export const clearSearchAsync = () => dispatch => {
   dispatch(fetchingItems());
   axios()
-    .get(getItemsURL)
+    .get(urls.getItemsURL)
     .then(res => {
-      dispatch(pushItems(res.data.items));
-      dispatch(itemsFetched());
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      } else {
+        dispatch(pushItems(res.data.items));
+        dispatch(itemsFetched());
+      }
     })
     .catch(err => {
       dispatch(errorFetchingItems(err.message));
@@ -177,10 +245,15 @@ export const clearSearchAsync = () => dispatch => {
 export const getUsersAsync = () => dispatch => {
   dispatch(fetchingUsers());
   axios()
-    .get(userListURL)
+    .get(urls.userListURL)
     .then(res => {
-      dispatch(pushUsers(res.data.users));
-      dispatch(usersFetched());
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      } else {
+        dispatch(pushUsers(res.data.users));
+        dispatch(usersFetched());
+      }
     })
     .catch(err => {
       dispatch(errorFetchingUsers(err.message));
@@ -190,15 +263,20 @@ export const getUsersAsync = () => dispatch => {
 export const getUserAsync = id => dispatch => {
   dispatch(fetchingUser());
   axios()
-  .get(`${userListURL}/${id}`)
-  .then(res => {
-    dispatch(pushUser(res.data.users));
-    dispatch(userFetched());
-  })
-  .catch(err => {
-    dispatch(errorFetchingUser(err.message));
-  })
-}
+    .get(`${urls.userListURL}/${id}`)
+    .then(res => {
+      if (res.data.message === 'jwt expired') {
+        dispatch(logout);
+        localStorage.clear();
+      } else {
+        dispatch(pushUser(res.data.users));
+        dispatch(userFetched());
+      }
+    })
+    .catch(err => {
+      dispatch(errorFetchingUser(err.message));
+    });
+};
 
 export function fetchingToken() {
   return {
@@ -245,18 +323,6 @@ export function errorFetchingItems(error) {
   };
 }
 
-export function addingItem() {
-  return {
-    type: types.ADDING_ITEM,
-  };
-}
-
-export function itemAdded() {
-  return {
-    type: types.ITEM_ADDED,
-  };
-}
-
 export function errorAddingItem(error) {
   return {
     type: types.ERROR_ADDING_ITEM,
@@ -264,34 +330,10 @@ export function errorAddingItem(error) {
   };
 }
 
-export function deletingItem() {
-  return {
-    type: types.DELETING_ITEM,
-  };
-}
-
-export function itemDeleted() {
-  return {
-    type: types.ITEM_DELETED,
-  };
-}
-
 export function errorDeletingItem(error) {
   return {
     type: types.ERROR_DELETING_ITEM,
     payload: error,
-  };
-}
-
-export function updatingItem() {
-  return {
-    type: types.UPDATING_ITEM,
-  };
-}
-
-export function itemUpdated() {
-  return {
-    type: types.ITEM_UPDATED,
   };
 }
 
@@ -351,25 +393,31 @@ export function fetchingUser() {
 export function userFetched() {
   return {
     type: types.USER_FETCHED,
-  }
+  };
 }
 
 export function pushUser(user) {
   return {
     type: types.PUSH_USER,
     payload: user,
-  }
+  };
 }
 
 export function errorFetchingUser(error) {
   return {
     type: types.ERROR_FETCHING_USER,
     payload: error,
-  }
+  };
 }
 
 export function setVolunteerLogin() {
   return {
     type: types.SET_VOLUNTEER_LOGIN,
-  }
+  };
+}
+
+export function logout() {
+  return {
+    type: types.LOGOUT,
+  };
 }

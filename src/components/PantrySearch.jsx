@@ -1,10 +1,9 @@
 import React from 'react';
+import PT from 'prop-types';
 
 export default function PantrySearch({
   currentlySearched,
-  currentlySearchedValuesSet,
   fireSearchItems,
-  fireItemSearchClear,
 }) {
   return (
     <div>
@@ -12,10 +11,13 @@ export default function PantrySearch({
       <input
         name="search"
         value={currentlySearched}
-        onChange={currentlySearchedValuesSet}
+        onChange={fireSearchItems}
       />
-      <button onClick={() => fireSearchItems(currentlySearched)}>Search</button>
-      <button onClick={fireItemSearchClear}>Clear</button>
     </div>
   );
+}
+
+PantrySearch.propTypes = {
+  currentlySearched: PT.string.isRequired,
+  fireSearchItems: PT.func.isRequired,
 }

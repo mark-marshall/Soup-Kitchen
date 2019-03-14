@@ -31,18 +31,6 @@ export function loading(loading = false, action) {
       return true;
     case types.ITEMS_FETCHED:
       return false;
-    case types.ADDING_ITEM:
-      return true;
-    case types.ITEM_ADDED:
-      return false;
-    case types.DELETING_ITEM:
-      return true;
-    case types.ITEM_DELETED:
-      return false;
-    case types.UPDATING_ITEM:
-      return true;
-    case types.ITEM_UPDATED:
-      return false;
     case types.FETCHING_USERS:
       return true;
     case types.USERS_FETCHED:
@@ -63,7 +51,7 @@ export function items(items = [], action) {
     case types.FILTER_ITEMS:
       return items.filter(item => item.categoryID === action.payload);
     case types.SEARCH_ITEMS:
-      return items.filter(item => item.name === action.payload);
+      return items.filter(item => item.name.startsWith(action.payload));
     default:
       return items;
   }
@@ -82,6 +70,8 @@ export function user(user = {}, action) {
   switch (action.type) {
     case types.PUSH_USER:
       return action.payload;
+    case types.LOGOUT:
+      return {};
     default:
       return user;
   }
@@ -91,6 +81,8 @@ export function isVolunteer(isVolunteer = false, action) {
   switch (action.type) {
     case types.SET_VOLUNTEER_LOGIN:
       return true;
+    case types.LOGOUT:
+      return false;
     default:
       return isVolunteer;
   }

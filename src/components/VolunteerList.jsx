@@ -1,4 +1,5 @@
 import React from 'react';
+import PT from 'prop-types';
 
 export default function VolunteerList({ volunteerList }) {
     return (
@@ -13,4 +14,14 @@ export default function VolunteerList({ volunteerList }) {
         ))}
       </div>
     )
+}
+
+VolunteerList.propTypes = {
+  volunteerList: PT.arrayOf(PT.shape({
+    id: PT.number,
+    firstname: PT.string,
+    lastname: PT.string,
+    email: PT.string,
+    role: PT.string,
+  })),
 }

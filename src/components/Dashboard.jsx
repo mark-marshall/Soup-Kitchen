@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, NavLink, withRouter } from 'react-router-dom';
+import PT from 'prop-types';
 
 import DashboardHeader from './DashboardHeader';
 import Pantry from './Pantry';
@@ -12,10 +13,10 @@ import {
   deleteItemAsync,
   updateItemAsync,
   filterItemsAsync,
-  unfilterItemsAsync,
   searchItemsAsync,
   clearSearchAsync,
   getUsersAsync,
+  logout,
 } from '../state/actionCreators';
 
 class Dashboard extends Component {
@@ -34,7 +35,6 @@ class Dashboard extends Component {
       categoryID: '',
     },
     currentlySelected: '',
-    currentlyFiltered: '',
     currentlySearched: '',
   };
 
@@ -49,7 +49,7 @@ class Dashboard extends Component {
         name: '',
         amount: '',
         unit: '',
-        category: '',
+        categoryID: '',
       },
     });
   };
@@ -63,6 +63,12 @@ class Dashboard extends Component {
     });
   };
 
+  addItemValidation = item => {
+    if (!item.name || !item.amount || !item.categoryID) {
+      return alert('Please fill in all fields 🌾');
+    } else return true;
+  };
+
   fireAddItem = item => {
     const itemParse = {
       name: item.name,
@@ -70,8 +76,10 @@ class Dashboard extends Component {
       unit: item.unit,
       categoryID: parseInt(item.categoryID),
     };
-    this.props.addItemAsync(itemParse);
-    this.resetValues();
+    if (this.addItemValidation(item)) {
+      this.props.addItemAsync(itemParse);
+      this.resetValues();
+    }
   };
 
   fireDeleteItem = id => {
@@ -111,6 +119,12 @@ class Dashboard extends Component {
     });
   };
 
+  updateItemValidation = item => {
+    if (!item.name || !item.amount || !item.categoryID) {
+      return alert('Please fill in all fields 🌾');
+    } else return true;
+  };
+
   fireUpdateItem = item => {
     const itemParse = {
       id: parseInt(item.id),
@@ -119,8 +133,10 @@ class Dashboard extends Component {
       unit: item.unit,
       categoryID: parseInt(item.categoryID),
     };
-    this.props.updateItemAsync(itemParse);
-    this.resetEditValues();
+    if (this.updateItemValidation(item)) {
+      this.props.updateItemAsync(itemParse);
+      this.resetEditValues();
+    }
   };
 
   currentlyFilteredReset = () => {
@@ -135,16 +151,11 @@ class Dashboard extends Component {
     });
   };
 
-  fireItemFilter = categoryID => {
-    const categoryIDParse = parseInt(categoryID);
+  fireItemFilter = event => {
+    const categoryIDParse = parseInt(event.target.value);
     this.props.filterItemsAsync(categoryIDParse);
     this.currentlyFilteredReset();
-  };
-
-  fireItemFilterClear = () => {
-    this.props.unfilterItemsAsync();
-    this.currentlyFilteredReset();
-  };
+  }
 
   currentlySearchedReset = () => {
     this.setState({
@@ -158,65 +169,104 @@ class Dashboard extends Component {
     });
   };
 
-  fireSearchItems = keyword => {
+  fireSearchItems = event => {
+    this.currentlySearchedValuesSet(event);
+    const keyword = event.target.value;
     this.props.searchItemsAsync(keyword);
-    this.currentlySearchedReset();
-  };
+  }
 
-  fireItemSearchClear = () => {
-    this.props.clearSearchAsync();
-    this.currentlySearchedReset();
+  fireLogout = () => {
+    this.props.logout();
+    localStorage.clear();
   };
 
   render() {
-    return (
-      <div>
-        <Route
-          path="/dashboard/"
-          render={routeProps => (
-            <DashboardHeader {...routeProps} user={this.props.user} />
-          )}
-        />
-        <nav>
-          <NavLink to="/dashboard/">Pantry</NavLink>
-          <NavLink to="/dashboard/team">Team</NavLink>
-        </nav>
-        <Route
-          exact
-          path="/dashboard/"
-          render={routeProps => (
-            <Pantry
-              {...routeProps}
-              items={this.props.items}
-              itemsValuesSet={this.itemsValuesSet}
-              addItem={this.state.addItem}
-              fireAddItem={this.fireAddItem}
-              fireDeleteItem={this.fireDeleteItem}
-              currentlySelectedSet={this.currentlySelectedSet}
-              editItem={this.state.editItem}
-              editValuesSet={this.editValuesSet}
-              resetEditValues={this.resetEditValues}
-              fireUpdateItem={this.fireUpdateItem}
-              fireItemFilter={this.fireItemFilter}
-              currentlyFiltered={this.state.currentlyFiltered}
-              currentlyFilteredSet={this.currentlyFilteredSet}
-              fireItemFilterClear={this.fireItemFilterClear}
-              currentlySearched={this.state.currentlySearched}
-              currentlySearchedValuesSet={this.currentlySearchedValuesSet}
-              fireSearchItems={this.fireSearchItems}
-              fireItemSearchClear={this.fireItemSearchClear}
-            />
-          )}
-        />
-        <Route
-          path="/dashboard/team"
-          render={routeProps => (
-            <Staff {...routeProps} users={this.props.users} />
-          )}
-        />
-      </div>
-    );
+    if (this.props.error) {
+      return <div>We're in a soup here: {this.props.error}</div>;
+    } else 
+    {
+      return (
+        <div>
+          <Route
+            path="/dashboard/"
+            render={routeProps => (
+              <DashboardHeader
+                {...routeProps}
+                user={this.props.user}
+                fireLogout={this.fireLogout}
+              />
+            )}
+          />
+          <nav>
+            <NavLink to="/dashboard/">Pantry</NavLink>
+            <NavLink to="/dashboard/team">Team</NavLink>
+          </nav>
+          <Route
+            exact
+            path="/dashboard/"
+            render={routeProps => (
+              <Pantry
+                {...routeProps}
+                items={this.props.items}
+                itemsValuesSet={this.itemsValuesSet}
+                addItem={this.state.addItem}
+                fireAddItem={this.fireAddItem}
+                fireDeleteItem={this.fireDeleteItem}
+                currentlySelectedSet={this.currentlySelectedSet}
+                editItem={this.state.editItem}
+                editValuesSet={this.editValuesSet}
+                resetEditValues={this.resetEditValues}
+                fireUpdateItem={this.fireUpdateItem}
+                fireItemFilter={this.fireItemFilter}
+                currentlySearched={this.state.currentlySearched}
+                fireSearchItems={this.fireSearchItems}
+              />
+            )}
+          />
+          <Route
+            path="/dashboard/team"
+            render={routeProps => (
+              <Staff {...routeProps} users={this.props.users} />
+            )}
+          />
+        </div>
+      );
+    }
   }
+}
+
+Dashboard.propTypes = {
+  items: PT.arrayOf(PT.shape({
+    id: PT.number,
+    name: PT.string,
+    amount: PT.number,
+    unit: PT.string,
+    imageURL: PT.string,
+  })),
+  users: PT.arrayOf(PT.shape({
+    id: PT.number,
+    firstname: PT.string,
+    lastname: PT.string,
+    email: PT.string,
+    role: PT.string,
+  })),
+  user: PT.shape({
+    id: PT.number,
+    firstname: PT.string,
+    lastname: PT.string,
+    email: PT.string,
+    role: PT.string,
+  }),
+  error: PT.string,
+  getItemsAsync: PT.func.isRequired,
+  addItemAsync: PT.func.isRequired,
+  deleteItemAsync: PT.func.isRequired,
+  updateItemAsync: PT.func.isRequired,
+  filterItemsAsync: PT.func.isRequired,
+  searchItemsAsync: PT.func.isRequired,
+  clearSearchAsync: PT.func.isRequired,
+  getUsersAsync: PT.func.isRequired,
+  logout: PT.func.isRequired,
 }
 
 function mapStateToProps(state) {
@@ -224,6 +274,7 @@ function mapStateToProps(state) {
     items: state.items,
     users: state.users,
     user: state.user,
+    error: state.error,
   };
 }
 
@@ -235,10 +286,10 @@ function mapDispatchToProps(dispatch) {
       deleteItemAsync,
       updateItemAsync,
       filterItemsAsync,
-      unfilterItemsAsync,
       searchItemsAsync,
       clearSearchAsync,
       getUsersAsync,
+      logout,
     },
     dispatch,
   );

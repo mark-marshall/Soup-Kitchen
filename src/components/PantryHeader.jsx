@@ -1,32 +1,29 @@
 import React from 'react';
+import PT from 'prop-types';
 
 import PantryFilter from './PantryFilter';
 import PantrySearch from './PantrySearch';
 
 export default function PantryHeader({
   fireItemFilter,
-  currentlyFiltered,
-  currentlyFilteredSet,
-  fireItemFilterClear,
-  currentlySearchedValuesSet,
-  fireSearchItems,
-  fireItemSearchClear,
   currentlySearched,
+  fireSearchItems,
 }) {
   return (
     <div>
       <PantryFilter
         fireItemFilter={fireItemFilter}
-        currentlyFiltered={currentlyFiltered}
-        currentlyFilteredSet={currentlyFilteredSet}
-        fireItemFilterClear={fireItemFilterClear}
       />
       <PantrySearch
-        currentlySearchedValuesSet={currentlySearchedValuesSet}
-        fireSearchItems={fireSearchItems}
-        fireItemSearchClear={fireItemSearchClear}
         currentlySearched={currentlySearched}
+        fireSearchItems={fireSearchItems}
       />
     </div>
   );
+}
+
+PantryHeader.propTypes = {
+  fireItemFilter: PT.func.isRequired,
+  fireSearchItems: PT.func.isRequired,
+  currentlySearched: PT.string.isRequired,
 }

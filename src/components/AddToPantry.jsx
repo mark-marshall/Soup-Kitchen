@@ -1,4 +1,5 @@
 import React from 'react';
+import PT from 'prop-types';
 
 export default function AddToPantry({ itemsValuesSet, addItem, fireAddItem }) {
   return (
@@ -17,7 +18,7 @@ export default function AddToPantry({ itemsValuesSet, addItem, fireAddItem }) {
       </div>
       <div>
         Category:
-        <select name="categoryID" onChange={itemsValuesSet}>
+        <select name="categoryID" value={addItem.categoryID} onChange={itemsValuesSet} >
           <option disable="true">Choose a type</option>
           <option value="1">Fruits</option>
           <option value="2">Vegetables</option>
@@ -34,4 +35,15 @@ export default function AddToPantry({ itemsValuesSet, addItem, fireAddItem }) {
       <button onClick={() => fireAddItem(addItem)}>Add Item</button>
     </div>
   );
+}
+
+AddToPantry.propTypes = {
+  itemsValuesSet: PT.func.isRequired, 
+  addItem: PT.shape({
+    name: PT.any,
+    amount: PT.any,
+    unit: PT.any,
+    categoryID: PT.any,
+  }),
+  fireAddItem: PT.func.isRequired,
 }

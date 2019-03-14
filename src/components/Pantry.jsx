@@ -1,4 +1,5 @@
 import React from 'react';
+import PT from 'prop-types';
 
 import PantryHeader from './PantryHeader';
 import PantryList from './PantryList';
@@ -16,26 +17,16 @@ export default function Pantry({
   resetEditValues,
   fireUpdateItem,
   fireItemFilter,
-  currentlyFiltered,
-  currentlyFilteredSet,
-  fireItemFilterClear,
-  currentlySearchedValuesSet,
-  fireSearchItems,
-  fireItemSearchClear,
   currentlySearched,
+  fireSearchItems,
 }) {
   return (
     <div>
       <h3>Pantry</h3>
       <PantryHeader
         fireItemFilter={fireItemFilter}
-        currentlyFiltered={currentlyFiltered}
-        currentlyFilteredSet={currentlyFilteredSet}
-        fireItemFilterClear={fireItemFilterClear}
-        currentlySearchedValuesSet={currentlySearchedValuesSet}
-        fireSearchItems={fireSearchItems}
-        fireItemSearchClear={fireItemSearchClear}
         currentlySearched={currentlySearched}
+        fireSearchItems={fireSearchItems}
       />
       <PantryList
         items={items}
@@ -53,4 +44,37 @@ export default function Pantry({
       />
     </div>
   );
+}
+
+Pantry.propTypes = {
+  items: PT.arrayOf(PT.shape({
+    id: PT.number,
+    name: PT.string,
+    amount: PT.number,
+    unit: PT.string,
+    imageURL: PT.string,
+  })),
+  itemsValuesSet: PT.func.isRequired,
+  addItem: PT.shape({
+    name: PT.any,
+    amount: PT.any,
+    unit: PT.any,
+    categoryID: PT.any,
+  }),
+  fireAddItem: PT.func.isRequired,
+  fireDeleteItem: PT.func.isRequired,
+  currentlySelectedSet: PT.func.isRequired,
+  editItem: PT.shape({
+    id: PT.any,
+    name: PT.any,
+    amount: PT.any,
+    unit: PT.any,
+    categoryID: PT.any,
+  }),
+  editValuesSet: PT.func.isRequired,
+  resetEditValues: PT.func.isRequired,
+  fireUpdateItem: PT.func.isRequired,
+  fireItemFilter: PT.func.isRequired,
+  currentlySearched: PT.string.isRequired,
+  fireSearchItems: PT.func.isRequired,
 }
