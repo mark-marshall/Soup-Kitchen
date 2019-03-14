@@ -21,10 +21,10 @@ const CredentialsWrapper = styled.div`
   flex-direction: ${soupStyles.display.directionSecondary};
   align-items: ${soupStyles.display.alignDefault};
   justify-content: ${soupStyles.display.alignDefault};
-  background-color: ${soupStyles.color.primary};
+  background-color: ${lighten(0.18,soupStyles.color.primary)};
 
   nav {
-    background-color: ${lighten(0.1, soupStyles.color.primary)}
+    background-color: ${lighten(0.1, soupStyles.color.primary)};
     width: ${soupStyles.width.subComponentLevel};
     display: ${soupStyles.display.default};
     align-items: ${soupStyles.display.alignDefault};
