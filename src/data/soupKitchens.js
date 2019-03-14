@@ -2,7 +2,7 @@ const soupKitchens = [
     {
         state: 'Alabama',
         location: 'Huntsville, AL',
-        kitchen: 'Rose of Sharon Soup Kitchen and Thrift Store',
+        kitchen: 'Rose of Sharon Soup Kitchen',
         link: 'http://www.roseofsharonsoupkitchen.org/',
     },
     {
