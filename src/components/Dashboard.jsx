@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, NavLink, withRouter } from 'react-router-dom';
 import PT from 'prop-types';
+import styled from 'styled-components';
+import { lighten } from 'polished';
 
 import DashboardHeader from './DashboardHeader';
 import Pantry from './Pantry';
@@ -18,6 +20,31 @@ import {
   getUsersAsync,
   logout,
 } from '../state/actionCreators';
+import soupStyles from '../styles/styles';
+
+const DashboardWrapper = styled.div`
+
+nav {
+  margin: ${soupStyles.margin.appLevel};
+  width: ${soupStyles.width.subComponentLevel};
+  display: ${soupStyles.display.default};
+  align-items: ${soupStyles.display.alignDefault};
+  justify-content: ${soupStyles.display.justifyDefault};
+  padding: ${soupStyles.padding.navs};
+  border-top-right-radius: ${soupStyles.border.radiusStandard};
+  border-top-left-radius: ${soupStyles.border.radiusStandard};
+}
+
+a {
+  color: ${soupStyles.color.default};
+  text-decoration: ${soupStyles.text.decorationStandard};
+  font-size: ${soupStyles.fontSize.large};
+}
+
+.active {
+  color: ${soupStyles.color.secondary};
+}
+`;
 
 class Dashboard extends Component {
   state = {
@@ -186,7 +213,7 @@ class Dashboard extends Component {
     } else 
     {
       return (
-        <div>
+        <DashboardWrapper>
           <Route
             path="/dashboard/"
             render={routeProps => (
@@ -198,7 +225,7 @@ class Dashboard extends Component {
             )}
           />
           <nav>
-            <NavLink to="/dashboard/">Pantry</NavLink>
+            <NavLink exact to="/dashboard/">Pantry</NavLink>
             <NavLink to="/dashboard/team">Team</NavLink>
           </nav>
           <Route
@@ -229,7 +256,7 @@ class Dashboard extends Component {
               <Staff {...routeProps} users={this.props.users} />
             )}
           />
-        </div>
+        </DashboardWrapper>
       );
     }
   }

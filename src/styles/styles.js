@@ -39,6 +39,7 @@ const soupStyles = {
         directionSecondary: 'column',
         justifyDefault: 'space-around',
         justifySecondary: 'space-between',
+        c: 'center',
         hide: 'none',
     },
     height: {

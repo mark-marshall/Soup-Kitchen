@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import PT from 'prop-types';
 import styled from 'styled-components';
-import { darken, lighten } from 'polished';
+import { lighten, darken } from 'polished';
 
 import soupStyles from '../styles/styles';
 
@@ -12,6 +12,8 @@ const DashboardHeaderWrapper = styled.div`
   display: ${soupStyles.display.default};
   justify-content: ${soupStyles.display.justifySecondary};
   align-items: ${soupStyles.display.alignDefault};
+  border-top-right-radius: ${soupStyles.border.radiusSmall};
+  border-top-left-radius: ${soupStyles.border.radiusSmall};
 
   div {
     padding: ${soupStyles.padding.inputPlus};
