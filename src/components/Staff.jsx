@@ -10,7 +10,8 @@ import soupStyles from '../styles/styles';
 
 const StaffWrapper = styled.div`
 background-color: ${lighten(0.78, soupStyles.color.accent)};
-border-radius: ${soupStyles.border.radiusSmall};
+border-bottom-right-radius: ${soupStyles.border.radiusSmall};
+border-bottom-left-radius: ${soupStyles.border.radiusSmall};
 padding-left: ${soupStyles.padding.default};
 
 .staffLists {
@@ -23,7 +24,7 @@ padding-left: ${soupStyles.padding.default};
     width: ${soupStyles.width.aLink};
     text-align: ${soupStyles.display.alignDefault};
     color: ${soupStyles.color.default};
-    background-color: ${soupStyles.color.neutral};
+    background-color: ${soupStyles.color.defaultSecondary};
     text-decoration: ${soupStyles.text.decorationStandard};
     font-size: ${soupStyles.fontSize.small};
     border-radius: ${soupStyles.border.radiusSmall};
@@ -37,7 +38,7 @@ padding-left: ${soupStyles.padding.default};
   
   .active {
     background-color: ${soupStyles.color.success};
-    color: ${soupStyles.color.neutral};
+    color: ${soupStyles.color.defaultSecondary};
 
     &:hover {
       background-color: ${soupStyles.color.success};

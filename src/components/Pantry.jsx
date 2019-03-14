@@ -9,9 +9,10 @@ import AddToPantry from './AddToPantry';
 import soupStyles from '../styles/styles';
 
 const PantryWrapper = styled.div`
-background-color: ${lighten(0.65, soupStyles.color.success)};
-border-radius: ${soupStyles.border.radiusSmall};
-padding: ${soupStyles.padding.default};
+  background-color: ${lighten(0.65, soupStyles.color.success)};
+  border-bottom-right-radius: ${soupStyles.border.radiusSmall};
+  border-bottom-left-radius: ${soupStyles.border.radiusSmall};
+  padding: ${soupStyles.padding.default};
 `;
 
 export default function Pantry({
@@ -31,15 +32,15 @@ export default function Pantry({
 }) {
   return (
     <PantryWrapper>
-      <PantryHeader
-        fireItemFilter={fireItemFilter}
-        currentlySearched={currentlySearched}
-        fireSearchItems={fireSearchItems}
-      />
       <AddToPantry
         itemsValuesSet={itemsValuesSet}
         addItem={addItem}
         fireAddItem={fireAddItem}
+      />
+      <PantryHeader
+        fireItemFilter={fireItemFilter}
+        currentlySearched={currentlySearched}
+        fireSearchItems={fireSearchItems}
       />
       <PantryList
         items={items}

@@ -1,6 +1,7 @@
 const soupStyles = {
     color: {
         default: 'black',
+        defaultSecondary: 'white',
         primary: '#F2AF9A',
         secondary: '#CF2C51',
         accent: '#3D075E',
@@ -28,10 +29,15 @@ const soupStyles = {
         subComponentLevel: '40%',
         navElement: '20%',
         input: '250px',
+        inputSmall: '170px',
+        inputXSmall: '128px',
+        select: '135px',
         smallButton: '60px',
+        xSmallButton: '35px',
         aLink: '75px',
         thirdSplit: '30.3%',
         quartSplit: '22%',
+        item: '15%',
     },
     margin: {
         appLevel: 'auto', 
@@ -39,7 +45,10 @@ const soupStyles = {
         large: '10%',
         mediumPlus: '7%',
         medium: '5%',
+        mediumMinus: '2.8%',
+        smallPlus: '2.2%',
         small: '1%', 
+        twentySplit: '20px',
     },
     display: {
         default: 'flex',
@@ -59,6 +68,7 @@ const soupStyles = {
         card: '160px',
         smallCard: '80px',
         input: '40px',
+        inputSmall: '35px',
     },
     fontSize: {
         heading: '2.2rem',
@@ -72,6 +82,7 @@ const soupStyles = {
     text: {
         decorationStandard: 'none',
         transformSecondary: 'lowercase',
+        transformTertiary: 'capitalize',
     },
     border: {
         radiusStandard: '4px',
