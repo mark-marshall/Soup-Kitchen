@@ -137,4 +137,7 @@ html {
   box-sizing: border-box;
   font-size: 62.5%;
   font-family: 'Rubik', sans-serif;
+  width: 1000px;
+  margin: auto;
+  padding: 0.5% 1.5% 2.5% 1.5%;
 }

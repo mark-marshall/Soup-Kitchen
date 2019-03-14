@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, NavLink, withRouter } from 'react-router-dom';
 import PT from 'prop-types';
+import styled from 'styled-components';
 
 import Register from './Register';
 import Login from './Login';
@@ -10,6 +11,16 @@ import {
   getTokenOnRegistrationAsync,
   getTokenOnLoginAsync,
 } from '../state/actionCreators';
+import soupStyles from '../styles/styles';
+
+const CredentialsWrapper = styled.div`
+padding: ${soupStyles.padding.largeContainer};
+display: ${soupStyles.display.default};
+flex-wrap: ${soupStyles.display.wrapDefault};
+align-items: ${soupStyles.display.alignDefault};
+justify-content: ${soupStyles.display.alignDefault};
+background-color: ${soupStyles.color.primary};
+`;
 
 class Credentials extends Component {
   state = {
@@ -103,7 +114,7 @@ class Credentials extends Component {
       return <div>Loading...</div>;
     } else {
       return (
-        <div>
+        <CredentialsWrapper>
           <nav>
             <NavLink to="/credentials/">Login</NavLink>
             <NavLink to="/credentials/register">Register</NavLink>
@@ -131,7 +142,7 @@ class Credentials extends Component {
               />
             )}
           />
-        </div>
+        </CredentialsWrapper>
       );
     }
   }
