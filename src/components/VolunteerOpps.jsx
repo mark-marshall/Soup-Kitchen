@@ -31,8 +31,7 @@ class VolunteerOpps extends Component {
     } else {
       return (
         <div>
-          <VolunteerHeader />
-          <button onClick={this.fireLogout}>Log out</button>
+          <VolunteerHeader fireLogout={this.fireLogout}/>
           <SoupKitchenList kitchens={this.state.kitchens} />
         </div>
       );

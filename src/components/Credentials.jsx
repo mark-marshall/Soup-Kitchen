@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, NavLink, withRouter } from 'react-router-dom';
 import PT from 'prop-types';
+import styled from 'styled-components';
+import { lighten } from 'polished';
 
 import Register from './Register';
 import Login from './Login';
@@ -10,6 +12,38 @@ import {
   getTokenOnRegistrationAsync,
   getTokenOnLoginAsync,
 } from '../state/actionCreators';
+import soupStyles from '../styles/styles';
+
+const CredentialsWrapper = styled.div`
+  height: ${soupStyles.height.componentLevel};
+  padding: ${soupStyles.padding.largeContainer};
+  display: ${soupStyles.display.default};
+  flex-direction: ${soupStyles.display.directionSecondary};
+  align-items: ${soupStyles.display.alignDefault};
+  justify-content: ${soupStyles.display.alignDefault};
+  background-color: ${lighten(0.18,soupStyles.color.primary)};
+
+  nav {
+    background-color: ${lighten(0.1, soupStyles.color.primary)};
+    width: ${soupStyles.width.subComponentLevel};
+    display: ${soupStyles.display.default};
+    align-items: ${soupStyles.display.alignDefault};
+    justify-content: ${soupStyles.display.justifyDefault};
+    padding: ${soupStyles.padding.navs};
+    border-top-right-radius: ${soupStyles.border.radiusStandard};
+    border-top-left-radius: ${soupStyles.border.radiusStandard};
+  }
+
+  a {
+    color: ${soupStyles.color.default};
+    text-decoration: ${soupStyles.text.decorationStandard};
+    font-size: ${soupStyles.fontSize.large};
+  }
+
+  .active {
+    color: ${soupStyles.color.secondary};
+  }
+`;
 
 class Credentials extends Component {
   state = {
@@ -103,10 +137,16 @@ class Credentials extends Component {
       return <div>Loading...</div>;
     } else {
       return (
-        <div>
+        <CredentialsWrapper>
           <nav>
-            <NavLink to="/credentials/">Login</NavLink>
+            <div>
+            <NavLink exact to="/credentials/">
+              Login
+            </NavLink>
+            </div>
+            <div>
             <NavLink to="/credentials/register">Register</NavLink>
+            </div>
           </nav>
           <Route
             exact
@@ -131,7 +171,7 @@ class Credentials extends Component {
               />
             )}
           />
-        </div>
+        </CredentialsWrapper>
       );
     }
   }
@@ -142,7 +182,7 @@ Credentials.propTypes = {
   error: PT.string,
   getTokenOnRegistrationAsync: PT.func.isRequired,
   getTokenOnLoginAsync: PT.func.isRequired,
-}
+};
 
 function mapStateToProps(state) {
   return {

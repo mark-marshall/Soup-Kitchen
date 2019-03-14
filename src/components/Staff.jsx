@@ -1,9 +1,51 @@
 import React from 'react';
 import { Route, NavLink } from 'react-router-dom';
 import PT from 'prop-types';
+import styled from 'styled-components';
+import { lighten } from 'polished';
 
 import VolunteerList from './VolunteerList';
 import StaffList from './StaffList';
+import soupStyles from '../styles/styles';
+
+const StaffWrapper = styled.div`
+background-color: ${lighten(0.78, soupStyles.color.accent)};
+border-bottom-right-radius: ${soupStyles.border.radiusSmall};
+border-bottom-left-radius: ${soupStyles.border.radiusSmall};
+padding-left: ${soupStyles.padding.default};
+
+.staffLists {
+  width: ${soupStyles.width.full};
+  display: ${soupStyles.display.default};
+  justify-content: ${soupStyles.display.justifyTertiary};
+
+  a {
+    padding: ${soupStyles.padding.aLink};
+    width: ${soupStyles.width.aLink};
+    text-align: ${soupStyles.display.alignDefault};
+    color: ${soupStyles.color.default};
+    background-color: ${soupStyles.color.defaultSecondary};
+    text-decoration: ${soupStyles.text.decorationStandard};
+    font-size: ${soupStyles.fontSize.small};
+    border-radius: ${soupStyles.border.radiusSmall};
+    margin-right: ${soupStyles.margin.small};
+    text-transform: ${soupStyles.text.transformSecondary};
+
+    &:hover {
+      background-color: ${lighten(0.5, soupStyles.color.success)};
+    }
+  }
+  
+  .active {
+    background-color: ${soupStyles.color.success};
+    color: ${soupStyles.color.defaultSecondary};
+
+    &:hover {
+      background-color: ${soupStyles.color.success};
+    }
+  }
+}
+`;
 
 export default function Staff({ users }) {
   const staffSorted = users.sort(function(a, b) {
@@ -20,10 +62,9 @@ export default function Staff({ users }) {
   const staffList = staffSorted.filter(user => user.role !== 'volunteer');
   const volunteerList = staffSorted.filter(user => user.role === 'volunteer');
   return (
-    <div>
-      <h3>Team</h3>
-      <nav>
-        <NavLink to="/dashboard/team">Staff</NavLink>
+    <StaffWrapper>
+      <nav className="staffLists">
+        <NavLink exact to="/dashboard/team">Staff</NavLink>
         <NavLink to="/dashboard/team/volunteers">Volunteers</NavLink>
       </nav>
       <Route
@@ -39,7 +80,7 @@ export default function Staff({ users }) {
           <VolunteerList {...routeProps} volunteerList={volunteerList} />
         )}
       />
-    </div>
+    </StaffWrapper>
   );
 }
 

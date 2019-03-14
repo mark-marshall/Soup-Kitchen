@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 import PT from 'prop-types';
 
-import './App.css';
 import AppHeader from './components/AppHeader';
 import Credentials from './components/Credentials';
 import Dashboard from './components/Dashboard';
@@ -32,7 +31,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div>
         <Route path="/" render={routeProps => <AppHeader {...routeProps} />} />
         <Route
           exact
