@@ -44,9 +44,13 @@ const soupStyles = {
         input: '40px',
     },
     fontSize: {
+        heading: '2.2rem',
         large: '1.7rem',
         medium: '1.4rem',
         small: '1.2rem',
+    },
+    font: {
+        alternate: 'Patrick Hand, cursive',
     },
     text: {
         decorationStandard: 'none',
