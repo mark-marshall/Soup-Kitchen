@@ -85,7 +85,7 @@ export default function Login({ loginUser, loginValuesSet, fireLogin }) {
         <option value="staff">Staff</option>
         <option value="volunteer">Volunteer</option>
       </select>
-      <button onClick={() => fireLogin(loginUser)}>Log In</button>
+      <button onClick={() => fireLogin(loginUser)}>Log In<span role="img" aria-label="spark">💥</span></button>
     </LoginWrapper>
   );
 }

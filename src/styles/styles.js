@@ -1,5 +1,3 @@
-import { black } from "ansi-colors";
-
 const soupStyles = {
     color: {
         default: 'black',
@@ -16,12 +14,16 @@ const soupStyles = {
         mediumContainer: '2% 1% 1.5% 1%',
         smallContainer: '1% 0.5% 1% 0.5%',
         navs: '4% 0 3% 0',
+        inputPlus: '0 2.5%',
         input: '0 1.5%',
+        smallButton: '1% 1.5%',
     },
     width: {
         appLevel: '1200px',
         subComponentLevel: '40%',
+        navElement: '20%',
         input: '250px',
+        smallButton: '60px',
     },
     margin: {
         appLevel: 'auto', 
@@ -36,11 +38,13 @@ const soupStyles = {
         alignDefault: 'center',
         directionSecondary: 'column',
         justifyDefault: 'space-around',
+        justifySecondary: 'space-between',
         hide: 'none',
     },
     height: {
         componentLevel: '750px',
         subComponentLevel: '55%',
+        divider: '60px',
         input: '40px',
     },
     fontSize: {

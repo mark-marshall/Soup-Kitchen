@@ -112,7 +112,7 @@ export default function Register({
           <option value="volunteer">Volunteer</option>
         </select>
       </div>
-      <button onClick={() => fireRegistration(registerUser)}>Register</button>
+      <button onClick={() => fireRegistration(registerUser)}>Register<span role="img" aria-label="spark">💥</span></button>
     </RegisterWrapper>
   );
 }
