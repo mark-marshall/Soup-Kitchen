@@ -5,6 +5,7 @@ import { Route, NavLink, withRouter } from 'react-router-dom';
 import PT from 'prop-types';
 import styled from 'styled-components';
 import { lighten } from 'polished';
+import * as EmailValidator from 'email-validator';
 
 import Register from './Register';
 import Login from './Login';
@@ -96,9 +97,12 @@ class Credentials extends Component {
       !user.role
     ) {
       return alert('Please fill in all fields 🌾');
-    } else if (!user.email.includes('@') || !user.email.includes('.')) {
+    } else if (!EmailValidator.validate(user.email)) {
       return alert('Please enter a valid email ✅');
-    } else return true;
+    } else if (user.password.length < 7 || !/\d/.test(user.password) ) {
+      return alert('Passwords over 7 characters, with at least 1 number 🔑');
+    }
+    else return true;
   };
 
   fireRegistration = user => {
