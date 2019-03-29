@@ -5,6 +5,8 @@ import { Route, NavLink, withRouter } from 'react-router-dom';
 import PT from 'prop-types';
 import styled from 'styled-components';
 import { lighten } from 'polished';
+import * as EmailValidator from 'email-validator';
+import Loader from 'react-loader-spinner';
 
 import Register from './Register';
 import Login from './Login';
@@ -21,7 +23,7 @@ const CredentialsWrapper = styled.div`
   flex-direction: ${soupStyles.display.directionSecondary};
   align-items: ${soupStyles.display.alignDefault};
   justify-content: ${soupStyles.display.alignDefault};
-  background-color: ${lighten(0.18,soupStyles.color.primary)};
+  background-color: ${lighten(0.18, soupStyles.color.primary)};
 
   nav {
     background-color: ${lighten(0.1, soupStyles.color.primary)};
@@ -96,8 +98,10 @@ class Credentials extends Component {
       !user.role
     ) {
       return alert('Please fill in all fields 🌾');
-    } else if (!user.email.includes('@') || !user.email.includes('.')) {
+    } else if (!EmailValidator.validate(user.email)) {
       return alert('Please enter a valid email ✅');
+    } else if (user.password.length < 7 || !/\d/.test(user.password)) {
+      return alert('Passwords over 7 characters, with at least 1 number 🔑');
     } else return true;
   };
 
@@ -134,18 +138,18 @@ class Credentials extends Component {
     if (this.props.error) {
       return <div>We're in a soup here: {this.props.error}</div>;
     } else if (this.props.loading) {
-      return <div>Loading...</div>;
+      return <Loader type="Grid" color={soupStyles.color.primary} height="50" width="50" />;
     } else {
       return (
         <CredentialsWrapper>
           <nav>
             <div>
-            <NavLink exact to="/credentials/">
-              Login
-            </NavLink>
+              <NavLink exact to="/credentials/">
+                Login
+              </NavLink>
             </div>
             <div>
-            <NavLink to="/credentials/register">Register</NavLink>
+              <NavLink to="/credentials/register">Register</NavLink>
             </div>
           </nav>
           <Route

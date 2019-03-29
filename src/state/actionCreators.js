@@ -90,24 +90,10 @@ export const addItemAsync = item => dispatch => {
         localStorage.clear();
       }
     })
+    .then(() => dispatch(getItemsAsync()))
     .catch(err => {
       dispatch(errorAddingItem(err.message));
     });
-  setTimeout(function() {
-    axios()
-      .get(urls.getItemsURL)
-      .then(res => {
-        if (res.data.message === 'jwt expired') {
-          dispatch(logout);
-          localStorage.clear();
-        } else {
-          dispatch(pushItems(res.data.items));
-        }
-      })
-      .catch(err => {
-        dispatch(errorFetchingItems(err.message));
-      });
-  }, 200);
 };
 
 export const deleteItemAsync = id => dispatch => {
@@ -119,24 +105,10 @@ export const deleteItemAsync = id => dispatch => {
         localStorage.clear();
       }
     })
+    .then(() => dispatch(getItemsAsync()))
     .catch(err => {
       dispatch(errorDeletingItem(err.message));
     });
-  setTimeout(function() {
-    axios()
-      .get(urls.getItemsURL)
-      .then(res => {
-        if (res.data.message === 'jwt expired') {
-          dispatch(logout);
-          localStorage.clear();
-        } else {
-          dispatch(pushItems(res.data.items));
-        }
-      })
-      .catch(err => {
-        dispatch(errorFetchingItems(err.message));
-      });
-  }, 200);
 };
 
 export const updateItemAsync = item => dispatch => {
@@ -144,28 +116,14 @@ export const updateItemAsync = item => dispatch => {
     .put(`${urls.getItemsURL}/${item.id}`, item)
     .then(res => {
       if (res.data.message === 'jwt expired') {
-        dispatch(logout);
+        dispatch(() => logout());
         localStorage.clear();
       }
     })
+    .then(() => dispatch(getItemsAsync()))
     .catch(err => {
       dispatch(errorUpdatingItem(err.message));
     });
-  setTimeout(function() {
-    axios()
-      .get(urls.getItemsURL)
-      .then(res => {
-        if (res.data.message === 'jwt expired') {
-          dispatch(logout);
-          localStorage.clear();
-        } else {
-          dispatch(pushItems(res.data.items));
-        }
-      })
-      .catch(err => {
-        dispatch(errorFetchingItems(err.message));
-      });
-  }, 200);
 };
 
 export const filterItemsAsync = categoryID => dispatch => {
