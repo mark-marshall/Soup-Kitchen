@@ -28,6 +28,7 @@ const soupStyles = {
         full: '100%',
         nearlyThere: '95%',
         subComponentLevel: '40%',
+        mobileComponentLevel: '70%',
         navElement: '20%',
         input: '250px',
         inputSmall: '170px',
@@ -73,6 +74,8 @@ const soupStyles = {
         smallCard: '80px',
         input: '40px',
         inputSmall: '35px',
+        mobileHeader: '70px',
+        mobileHeaderSmall: '50px',
     },
     fontSize: {
         heading: '2.2rem',
