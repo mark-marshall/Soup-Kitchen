@@ -16,6 +16,14 @@ background-color: ${lighten(0.05, soupStyles.color.primary)};
 border-bottom-right-radius: ${soupStyles.border.radiusStandard};
 border-bottom-left-radius: ${soupStyles.border.radiusStandard};
 
+@media (max-width: 900px) {
+  width: ${soupStyles.width.mobileComponentLevel};
+}
+
+@media (max-width: 600px) {
+  width: ${soupStyles.width.nearlyThere};
+}
+
 input {
   font-size: ${soupStyles.fontSize.medium};
   background-color: ${lighten(0.05, soupStyles.color.primary)};

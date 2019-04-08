@@ -25,6 +25,10 @@ const CredentialsWrapper = styled.div`
   justify-content: ${soupStyles.display.alignDefault};
   background-color: ${lighten(0.18, soupStyles.color.primary)};
 
+  @media (max-width: 600px) {
+  background-color: ${soupStyles.color.defaultSecondary};
+  }
+
   nav {
     background-color: ${lighten(0.1, soupStyles.color.primary)};
     width: ${soupStyles.width.subComponentLevel};
@@ -34,6 +38,16 @@ const CredentialsWrapper = styled.div`
     padding: ${soupStyles.padding.navs};
     border-top-right-radius: ${soupStyles.border.radiusStandard};
     border-top-left-radius: ${soupStyles.border.radiusStandard};
+
+    @media (max-width: 900px) {
+      width: ${soupStyles.width.mobileComponentLevel};
+      height: ${soupStyles.height.mobileHeader}:
+    }
+
+    @media (max-width: 600px) {
+      width: ${soupStyles.width.nearlyThere};
+      height: ${soupStyles.height.mobileHeaderSmall};
+    }
   }
 
   a {
