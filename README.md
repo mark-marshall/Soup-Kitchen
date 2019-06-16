@@ -1,6 +1,7 @@
 # I'll Serve Soup 🥣
 
 ## Preview
+![](soupKitchenPreview.gif)
 
 ## Motivation
 I'll Serve Soup is a desktop web application which was built as a training exercise for creating user interfaces with React and Redux.
